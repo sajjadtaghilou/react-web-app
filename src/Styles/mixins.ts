@@ -81,6 +81,6 @@ export const spaceXMixinFactory = (size: "small" | "large") => css`
 `;
 export const spaceYMixinFactory = (size: "small" | "large") => css`
   & > * + * {
-    margin-bottom: ${size === "large" ? "1em" : "0.5em"};
+    margin-top: ${size === "large" ? "1em" : "0.5em"};
   }
 `;

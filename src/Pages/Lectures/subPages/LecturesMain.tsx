@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
-import { AnimateSharedLayout, motion, useCycle } from "framer-motion";
-import Page from "Components/Page";
+import { AnimatePresence, motion, useCycle } from "framer-motion";
 import sea2 from "Assets/images/sea2.jpg";
+import sea3 from "Assets/images/sea3.jpg";
 import forest from "Assets/images/forest.jpg";
 import road from "Assets/images/road.jpg";
 import { spaceXMixinFactory } from "Styles/mixins";
@@ -26,22 +26,6 @@ const LecturesMain: React.FC = () => {
             footer={<PlayBtn />}
           />
         </div>
-        <div className="card-item-container">
-          <Card
-            backgroundImage={road}
-            id="road"
-            title="انرژی"
-            footer={<PlayBtn />}
-          />
-        </div>
-        <div className="card-item-container">
-          <Card
-            backgroundImage={road}
-            id="road2"
-            title="انرژی"
-            footer={<PlayBtn />}
-          />
-        </div>
         <Link to="/lectures/jkhjk">
           <div className="card-item-container">
             <Card
@@ -52,10 +36,23 @@ const LecturesMain: React.FC = () => {
             />
           </div>
         </Link>
+        <div className="card-item-container">
+          <Card
+            backgroundImage={road}
+            id="road"
+            title="انرژی"
+            footer={<PlayBtn />}
+          />
+        </div>
+        <div className="card-item-container">
+          <Card
+            backgroundImage={sea3}
+            id="sea3"
+            title="انرژی"
+            footer={<PlayBtn />}
+          />
+        </div>
       </CardList>
-      <Button bg="secondary" isGradient hasGlow>
-        salam
-      </Button>
     </Container>
   );
 };

@@ -24,6 +24,19 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Khand";
+  src: url("../Assets/Fonts/subset-Khand-Regular.eot");
+  src: url("../Assets/Fonts/subset-Khand-Regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("../Assets/Fonts/subset-Khand-Regular.woff2") format("woff2"),
+    url("../Assets/Fonts/subset-Khand-Regular.woff") format("woff"),
+    url("../Assets/Fonts/subset-Khand-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -72,7 +85,7 @@
 
 body,
 #root {
-  font-family: IRANYekanMobile;
+  font-family: IRANYekanMobile, Khand;
   max-width: 100vw;
   height: 100vh;
   direction: rtl;

@@ -1,27 +1,33 @@
 import { transparentize } from "polished";
 import React from "react";
-import { BsPlay } from "react-icons/bs";
+import styled, { css } from "styled-components";
+import { IoPlayOutline } from "react-icons/io5";
+import { motion } from "framer-motion";
 
-import styled from "styled-components";
-
-const PlayBtn: React.FC = () => {
+const PlayBtn: React.FC<{ big?: boolean }> = ({ big }) => {
   return (
-    <Container>
-      <BsPlay />
+    <Container big={big}>
+      <IoPlayOutline />
     </Container>
   );
 };
 
 export default PlayBtn;
 
-const Container = styled.button`
+const Container = styled(motion.button)<{ big?: boolean }>`
   display: flex;
   border: none;
   color: white;
   justify-content: center;
   align-items: center;
-  padding: 0.5em;
+  padding: 0.5em 0.4em 0.5em 0.6em;
   border-radius: 100%;
   background-color: ${(p) => transparentize(0.8, p.theme.palette.common.white)};
-  backdrop-filter: blur(1em);
+  backdrop-filter: blur(0.1em);
+  ${(p) =>
+    p.big &&
+    css`
+      font-size: 1.8rem;
+      padding: 0.3em 0.2em 0.3em 0.4em;
+    `}
 `;

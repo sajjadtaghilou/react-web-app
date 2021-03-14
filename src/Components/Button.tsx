@@ -1,16 +1,20 @@
+import React from "react";
+import { ButtonHTMLAttributes } from "react";
 import styled, { css } from "styled-components";
 import { fullRoundedMixin, roundedMixin } from "Styles/mixins";
 import { colorVariantsProps, colorVariantsPropsType } from "Styles/props";
 import { PaletteColorKeysType } from "types/paletteType";
 
-type ButtonProops = {
+type ButtonProps = {
   fullRounded?: boolean;
   hasShadow?: boolean;
   isLoading?: boolean;
+  fullWidth?: boolean;
 };
 
 const Button: React.FC<
-  ButtonProops & { icon?: JSX.Element } & colorVariantsPropsType
+  ButtonProps & { icon?: JSX.Element } & colorVariantsPropsType &
+    React.ButtonHTMLAttributes<HTMLButtonElement>
 > = ({ children, icon, isLoading, ...props }) => {
   return (
     <ButtonContainer {...props}>
@@ -25,9 +29,16 @@ const Button: React.FC<
 export default Button;
 
 export const ButtonContainer = styled.button<
-  ButtonProops & colorVariantsPropsType
+  ButtonProps & colorVariantsPropsType
 >`
+  ${(p) =>
+    p.fullWidth &&
+    css`
+      width: 100%;
+    `};
   display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   padding: 0.3em 1em;
   ${(p) => (p.fullRounded ? fullRoundedMixin : roundedMixin)};

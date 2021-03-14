@@ -1,5 +1,5 @@
 import "./App.css";
-import { AnimatePresence, AnimateSharedLayout } from "framer-motion";
+import { Provider } from "jotai";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { theme } from "Base/theme";
 import Routes from "Pages/Routes";
@@ -8,10 +8,12 @@ import Layout from "Base/Layout";
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      <Layout>
-        <Routes />
-      </Layout>
+      <Provider>
+        <GlobalStyles />
+        <Layout>
+          <Routes />
+        </Layout>
+      </Provider>
     </ThemeProvider>
   );
 }

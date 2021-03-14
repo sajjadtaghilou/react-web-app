@@ -3,6 +3,8 @@ import { matchPath, useLocation, useRouteMatch, Link } from "react-router-dom";
 import Page from "Components/Page";
 import LecturesMain from "./subPages/LecturesMain";
 import LectureDetails from "./subPages/LectureDetails";
+import LecturePlayer from "./subPages/LecturePlayer";
+
 import { AnimatePresence } from "framer-motion";
 import styled from "styled-components";
 
@@ -39,7 +41,7 @@ const Lectures: React.FC = () => {
           </SubpageContainer>
         )}
       </AnimatePresence>
-      {/* {isLecturePlay &&  <LecturesMain />} */}
+      {isLecturePlay && <LecturePlayer />}
     </Page>
   );
 };
