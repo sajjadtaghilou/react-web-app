@@ -27,7 +27,8 @@ const navRoutes: {
   {
     icon: <BiUser />,
     title: "پروفایل",
-    path: "/profile",
+    path: "/login",
+    // path: "/profile",
   },
   {
     icon: <BiLineChart />,

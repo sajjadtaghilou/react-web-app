@@ -22,8 +22,9 @@ const Container = styled(motion.button)<{ big?: boolean }>`
   align-items: center;
   padding: 0.5em 0.4em 0.5em 0.6em;
   border-radius: 100%;
-  background-color: ${(p) => transparentize(0.8, p.theme.palette.common.white)};
-  backdrop-filter: blur(0.1em);
+  background-color: ${(p) =>
+    transparentize(0.85, p.theme.palette.common.white)};
+  backdrop-filter: blur(0.07em);
   ${(p) =>
     p.big &&
     css`
