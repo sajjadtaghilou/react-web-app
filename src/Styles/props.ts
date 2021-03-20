@@ -17,14 +17,22 @@ export const colorVariantsProps = (
 ) => css`
   ${p.bg &&
   (p.isGradient
-    ? gradientMixinFactory(p.bg, p.deg)
+    ? css`
+        ${gradientMixinFactory(p.bg, p.deg)};
+        color: ${p.theme.palette.common.white};
+      `
     : css`
         background-color: ${p.theme.palette[p.bg].main};
         color: ${p.theme.palette[p.bg].contrast};
       `)}
   ${p.bg &&
   p.hasGlow &&
-  glowMixinFactory({ gradient: gradientMixinFactory(p.bg) })}
+  css`
+    ${glowMixinFactory({ gradient: gradientMixinFactory(p.bg) })};
+    & {
+      overflow: visible;
+    }
+  `}
   ${p.color &&
   css`
     color: ${p.theme.palette[p.color].main};

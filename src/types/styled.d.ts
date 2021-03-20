@@ -19,7 +19,7 @@ declare module "styled-components" {
       tertiary: PaletteType;
       fourth: PaletteType;
       bg: PaletteType;
-      "card-bg": Omit<PaletteType, "gradient">;
+      "card-bg": PaletteType;
       shadow: Omit<PaletteType, "gradient">;
     };
   }

@@ -10,5 +10,5 @@ export type PaletteType = {
 
 export type PaletteColorKeysType = keyof Omit<
   DefaultTheme["palette"],
-  "common" | "card-bg" | "shadow" | "bg"
+  "common" | "shadow" | "bg"
 >;

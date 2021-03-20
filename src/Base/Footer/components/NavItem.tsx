@@ -4,6 +4,7 @@ import {
   fullRoundedMixin,
   glowMixinFactory,
   gradientMixinFactory,
+  roundedMixin,
 } from "Styles/mixins";
 import { transparentize, linearGradient } from "polished";
 import { useContext, useMemo } from "react";
@@ -25,8 +26,8 @@ const navVariantsFactory = (theme: DefaultTheme) => ({
     color: theme.palette.common.white,
     ...linearGradient({
       colorStops: [
-        transparentize(0.7, theme.palette.tertiary.main),
-        transparentize(0.7, theme.palette.tertiary.gradient),
+        transparentize(0.55, theme.palette.tertiary.main),
+        transparentize(0.55, theme.palette.tertiary.gradient),
       ],
       toDirection: "to top right",
     }),
@@ -80,7 +81,7 @@ const NavItemLi = styled(motion.li)`
   align-items: center;
   cursor: pointer;
   padding: 0.2em 0.8em;
-  ${fullRoundedMixin};
+  ${roundedMixin};
   & > span {
     white-space: nowrap;
     overflow: hidden;

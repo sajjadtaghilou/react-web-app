@@ -1,10 +1,12 @@
 import Layout from "Base/Layout";
-import { AnimateSharedLayout } from "framer-motion";
+import { AnimateSharedLayout, AnimatePresence } from "framer-motion";
 import { Route, Switch, useLocation } from "react-router-dom";
+import Home from "./Home";
 import Lectures from "./Lectures";
 import Login from "./Login";
 
 const Routes: React.FC = () => {
+  const location = useLocation();
   return (
     <Switch>
       <Route path="/login" component={Login} />
@@ -12,9 +14,12 @@ const Routes: React.FC = () => {
         render={() => (
           <Layout>
             <AnimateSharedLayout type="crossfade">
-              <Switch>
-                <Route path="/lectures" component={Lectures} />
-              </Switch>
+              <AnimatePresence>
+                <Switch location={location} key={location.pathname}>
+                  <Route path="/lectures" component={Lectures} />
+                  <Route path="/" exact component={Home} />
+                </Switch>
+              </AnimatePresence>
             </AnimateSharedLayout>
           </Layout>
         )}

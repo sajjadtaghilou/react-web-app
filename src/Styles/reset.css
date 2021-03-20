@@ -139,10 +139,10 @@ sup {
 }
 
 a {
-  color: theme-color("primary");
   text-decoration: none;
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
+  color: inherit;
 }
 a:not([href]):not([tabindex]) {
   color: inherit;
@@ -244,6 +244,8 @@ textarea {
 button,
 input {
   overflow: visible;
+  color: inherit;
+  background-color: inherit;
 }
 
 button,

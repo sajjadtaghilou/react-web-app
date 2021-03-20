@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import Input from "Components/Input";
 import { AiOutlineUser } from "react-icons/ai";
+import Button from "Components/Button";
+import { spaceYMixinFactory } from "Styles/mixins";
 
 const Login: React.FC = () => {
   const [, setLayoutAtom] = useAtom(LayoutAtom);
@@ -19,16 +21,36 @@ const Login: React.FC = () => {
   return (
     <Continer>
       <TitleContainer>
-        <motion.h1
+        <motion.h2
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 4, delay: 3, type: "spring" }}
+          transition={{ duration: 4, delay: 8, type: "spring" }}
+          style={{ letterSpacing: "0.3rem" }}
         >
           CALM SEA
-        </motion.h1>
+        </motion.h2>
       </TitleContainer>
       <FormContainer>
-        <Input icon={<AiOutlineUser />} />
+        <Input
+          motion={{
+            initial: { width: 0, opacity: 0 },
+            animate: { width: "100%", opacity: 1 },
+            transition: { delay: 1, duration: 1 },
+          }}
+          icon={<AiOutlineUser />}
+          iconColor={{ bg: "secondary", hasGlow: false, isGradient: true }}
+          inputColor={{ bg: "card-bg", isGradient: true }}
+        />
+        <Button
+          bg="secondary"
+          hasGlow
+          isGradient
+          initial={{ width: 0, opacity: 0 }}
+          animate={{ width: "auto", opacity: 1 }}
+          // transition={{ delay: 4 }}
+        >
+          ورود
+        </Button>
       </FormContainer>
     </Continer>
   );
@@ -58,4 +80,7 @@ const FormContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  ${spaceYMixinFactory("large")}
+  width:60%;
 `;

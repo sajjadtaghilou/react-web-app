@@ -53,15 +53,33 @@ const LecturesMain: React.FC = () => {
           />
         </div>
       </CardList>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
+        laboriosam impedit vitae totam, consequatur velit ipsam tempore
+        voluptatibus incidunt eius? Eaque neque qui consequatur maiores, sit
+        vitae! Quae ipsum nemo laboriosam, nostrum porro hic! Placeat libero
+        sapiente laborum molestias necessitatibus inventore rem, quibusdam sit,
+        eaque velit dicta id porro eum omnis molestiae alias quos! Aliquid
+        quibusdam itaque at corrupti, sed aspernatur expedita nobis excepturi
+        non delectus, nemo vero. Quis cumque provident delectus mollitia sequi
+        eaque laborum eos vero cum doloremque animi, velit aliquam nisi. Itaque
+        repellendus eaque vel similique inventore tempora laboriosam officiis
+        atque. Cumque, voluptatum labore accusantium rerum blanditiis pariatur
+        in optio, amet ratione quae reiciendis obcaecati, corrupti suscipit
+        aspernatur esse! A temporibus aut officia alias asperiores eligendi
+        doloremque rerum tempora quis, saepe recusandae quam quibusdam aliquam
+        nesciunt unde?
+      </p>
     </Container>
   );
 };
 
 export default LecturesMain;
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   width: 100%;
   height: 100%;
+  overflow-x: hidden;
 `;
 
 const CardList = styled(motion.div)`
@@ -70,11 +88,13 @@ const CardList = styled(motion.div)`
   display: inline-flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  padding: 1em;
   & > * {
     flex-shrink: 0;
   }
   .card-item-container {
     width: 40vw;
+    height: 40vw;
   }
   ${spaceXMixinFactory("large")}
 `;

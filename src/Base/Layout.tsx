@@ -9,8 +9,8 @@ const Layout: React.FC = ({ children }) => {
   const [{ isFullscreen }] = useAtom(LayoutAtom);
   return (
     <Container>
-      <AnimateSharedLayout>
-        <AnimatePresence>
+      <AnimateSharedLayout type="crossfade">
+        {/* <AnimatePresence>
           {!isFullscreen && (
             <HeaderContainer
               layoutId="HeaderContainer"
@@ -21,7 +21,7 @@ const Layout: React.FC = ({ children }) => {
               <Header />
             </HeaderContainer>
           )}
-        </AnimatePresence>
+        </AnimatePresence> */}
         <Body layoutId="Body">{children}</Body>
         <AnimatePresence>
           {!isFullscreen && (
@@ -50,6 +50,8 @@ const Container = styled.div`
 `;
 const Body = styled(motion.main)`
   flex: 1;
+  position: relative;
+  overflow: hidden;
   /* height: 100px; */
   width: 100%;
   display: flex;

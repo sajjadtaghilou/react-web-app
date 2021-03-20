@@ -49,7 +49,7 @@ const Footer: React.FC = () => {
       <Nav>
         <NavItemUl>
           {navRoutes.map((nav) => (
-            <Link to={nav.path}>
+            <Link to={nav.path} key={nav.path}>
               <NavItem
                 icon={nav.icon}
                 title={nav.title}
@@ -66,14 +66,14 @@ const Footer: React.FC = () => {
 export default Footer;
 
 const Nav = styled.nav`
-  border-top-left-radius: 2em;
-  border-top-right-radius: 2em;
-  padding: 1em 1.3em;
+  border-radius: 0.7em;
+  margin: 0.4em;
+  padding: 0.5em;
   background-color: ${(p) => p.theme.palette["card-bg"].main};
-  ${bluryShadowMixin}
+  /* ${bluryShadowMixin} */
 `;
 
 const NavItemUl = styled(motion.ul)`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 `;

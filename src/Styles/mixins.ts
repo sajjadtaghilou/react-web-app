@@ -57,6 +57,9 @@ export const glowMixinFactory = ({
 export const roundedMixin = css`
   border-radius: 0.5em;
 `;
+export const roundedMediumMixin = css`
+  border-radius: 1em;
+`;
 export const fullRoundedMixin = css`
   border-radius: 999em;
 `;
@@ -71,6 +74,7 @@ export const gradientMixinFactory = (
     ${(p) => p.theme.palette[key].main},
     ${(p) => p.theme.palette[key].gradient}
   );
+  color: ${(p) => p.theme.palette[key].contrast};
 `;
 
 //space

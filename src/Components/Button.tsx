@@ -1,3 +1,4 @@
+import { motion, HTMLMotionProps } from "framer-motion";
 import React from "react";
 import { ButtonHTMLAttributes } from "react";
 import styled, { css } from "styled-components";
@@ -14,7 +15,7 @@ type ButtonProps = {
 
 const Button: React.FC<
   ButtonProps & { icon?: JSX.Element } & colorVariantsPropsType &
-    React.ButtonHTMLAttributes<HTMLButtonElement>
+    HTMLMotionProps<"button">
 > = ({ children, icon, isLoading, ...props }) => {
   return (
     <ButtonContainer {...props}>
@@ -28,7 +29,7 @@ const Button: React.FC<
 
 export default Button;
 
-export const ButtonContainer = styled.button<
+export const ButtonContainer = styled(motion.button)<
   ButtonProps & colorVariantsPropsType
 >`
   ${(p) =>

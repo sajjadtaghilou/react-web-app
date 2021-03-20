@@ -26,9 +26,13 @@ const Card: React.FC<CardProps & Omit<HTMLMotionProps<"div">, "title">> = ({
     <Container
       transition={{ duration: 0.5 }}
       layoutId={id}
+      style={{
+        display: "inline-block",
+      }}
       animate={{
         width: "100%",
-        paddingTop: isExpanded ? "50%" : "100%",
+        height: "100%",
+        // paddingTop: isExpanded ? "50%" : "100%",
       }}
       initial={false}
       exit={{ opacity: 0 }}
@@ -37,8 +41,9 @@ const Card: React.FC<CardProps & Omit<HTMLMotionProps<"div">, "title">> = ({
         transition={{ duration: 0.5 }}
         className="image-container"
         layoutId={`${id}_image-container`}
-        style={{
+        animate={{
           width: "100%",
+          display: "inline-block",
           height: "100%",
         }}
         initial={false}
@@ -61,7 +66,7 @@ const Card: React.FC<CardProps & Omit<HTMLMotionProps<"div">, "title">> = ({
         transition={{ duration: 0.5 }}
         style={isExpanded ? { bottom: "0.2em" } : { top: "0.2em" }}
       >
-        <Title>{title}</Title>
+        <Title as={isExpanded ? "h3" : "h5"}>{title}</Title>
         {subtitle && <Title as={motion.h6}>{subtitle}</Title>}
       </TitleContainer>
       <FooterContainer
@@ -93,7 +98,7 @@ const Container = styled(motion.div)`
     width: 100%;
     height: 100%;
   }
-  ${bigShadowMixin}
+  /* ${bigShadowMixin} */
 `;
 
 const TitleContainer = styled(motion.div)`
@@ -106,13 +111,15 @@ const TitleContainer = styled(motion.div)`
   max-width: 80%;
 `;
 
-const Title = styled(motion.h2)`
+const Title = styled(motion.h5)`
   max-width: 100%;
   display: inline-block;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  /* padding: 0 0.2em; */
+  padding: 0.1em 0.3em;
+  border-radius: 0.3em;
+  background-color: ${(p) => transparentize(0.7, p.theme.palette.common.black)};
   font-weight: bolder;
 `;
 

@@ -25,23 +25,12 @@ const Lectures: React.FC = () => {
   });
 
   return (
-    <Page>
-      <AnimatePresence>
-        {isLecturesMain && (
-          <SubpageContainer>
-            <LecturesMain />
-          </SubpageContainer>
-        )}
-      </AnimatePresence>
+    <Page noPadding>
+      {isLecturesMain && <LecturesMain />}
 
-      <AnimatePresence>
-        {isLectureDetails && (
-          <SubpageContainer>
-            <LectureDetails />
-          </SubpageContainer>
-        )}
-      </AnimatePresence>
-      {isLecturePlay && <LecturePlayer />}
+      {isLectureDetails && <LectureDetails />}
+
+      {/* {isLecturePlay && <LecturePlayer />} */}
     </Page>
   );
 };

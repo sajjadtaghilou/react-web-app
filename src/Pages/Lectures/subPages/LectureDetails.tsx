@@ -18,17 +18,18 @@ const LectureDetails: React.FC = () => {
   const [, setLayoutAtom] = useAtom(LayoutAtom);
   const history = useHistory();
   const match = useRouteMatch();
-  console.log({ match });
   return (
     <Container ref={ref}>
-      <Card
-        key="sea2"
-        backgroundImage={sea2}
-        id="sea2"
-        title="خواب"
-        isExpanded
-        footer={<PlayBtn />}
-      />
+      <CardContainer>
+        <Card
+          key="sea2"
+          backgroundImage={sea2}
+          id="sea2"
+          title="خواب"
+          isExpanded
+          footer={<PlayBtn />}
+        />
+      </CardContainer>
       <DescContainer>
         <LectureDesc
           initial={{ y: 5, opacity: 0 }}
@@ -42,7 +43,11 @@ const LectureDetails: React.FC = () => {
         >
           لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
           استفاده از طراحان گرافیک است، چاپگرها و متون بلکه موجود طراحی اساسا
-          مورد استفاده قرار گیرد.
+          مورد استفاده قرار گیرد. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم
+          از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه
+          موجود طراحی اساسا مورد استفاده قرار گیرد. لورم ایپسوم متن ساختگی با
+          تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است،
+          چاپگرها و متون بلکه موجود طراحی اساسا مورد استفاده قرار گیرد.
         </LectureDesc>
         <ButtonsContainer
           initial={{ y: 5, opacity: 0 }}
@@ -66,7 +71,9 @@ const LectureDetails: React.FC = () => {
           >
             پخش نمونه
           </Button>
-          <Button fullWidth>اضافه به لیست</Button>
+          <Button fullWidth bg="primary" isGradient>
+            اضافه به لیست
+          </Button>
         </ButtonsContainer>
       </DescContainer>
     </Container>
@@ -77,9 +84,15 @@ export default LectureDetails;
 
 const Container = styled(motion.div)`
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
+  /* overflow-x: hidden; */
   display: flex;
   flex-direction: column;
+  padding: 1em;
+`;
+const CardContainer = styled.div`
+  width: 100%;
+  height: 50vw;
 `;
 
 const DescContainer = styled.div`
