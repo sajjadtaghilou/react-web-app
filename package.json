@@ -26,7 +26,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "buildapi": "openapi-generator-cli generate --skip-validate-spec -i ../openapi/reference/Api.v1.yaml -g typescript-fetch -t src/Api/typescript-fetch-template -o src/Api/GeneratedApi"
   },
   "eslintConfig": {
     "extends": [
@@ -47,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.2.2",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.7"
   }
