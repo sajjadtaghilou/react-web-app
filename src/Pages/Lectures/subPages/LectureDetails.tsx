@@ -9,7 +9,7 @@ import { spaceXMixinFactory, spaceYMixinFactory } from "Styles/mixins";
 import Card from "Components/Card";
 import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import { useAtom } from "jotai";
-import PlayBtn from "../components/PlayBtn";
+import PlayBtn from "Components/Player/components/PlayBtn";
 import Button from "Components/Button";
 import { LayoutAtom } from "Contexts/LayouContext";
 

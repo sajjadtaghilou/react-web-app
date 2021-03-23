@@ -8,7 +8,7 @@ import road from "Assets/images/road.jpg";
 import { spaceXMixinFactory, spaceYMixinFactory } from "Styles/mixins";
 import Card from "Components/Card";
 import { Link } from "react-router-dom";
-import PlayBtn from "../components/PlayBtn";
+import PlayBtn from "Components/Player/components/PlayBtn";
 import Button from "Components/Button";
 import { useAtom } from "jotai";
 import { LayoutAtom } from "Contexts/LayouContext";

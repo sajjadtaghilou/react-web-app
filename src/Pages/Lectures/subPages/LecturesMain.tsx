@@ -10,7 +10,7 @@ import Card from "Components/Card";
 import { Link } from "react-router-dom";
 import { transparentize } from "polished";
 import { BsPlay } from "react-icons/bs";
-import PlayBtn from "../components/PlayBtn";
+import PlayBtn from "Components/Player/components/PlayBtn";
 import Button from "Components/Button";
 
 const LecturesMain: React.FC = () => {

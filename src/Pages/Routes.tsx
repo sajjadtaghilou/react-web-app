@@ -14,12 +14,12 @@ const Routes: React.FC = () => {
         render={() => (
           <Layout>
             <AnimateSharedLayout type="crossfade">
-              <AnimatePresence>
-                <Switch location={location} key={location.pathname}>
-                  <Route path="/lectures" component={Lectures} />
-                  <Route path="/" exact component={Home} />
-                </Switch>
-              </AnimatePresence>
+              {/* <AnimatePresence exitBeforeEnter> */}
+              <Switch location={location} key={location.pathname}>
+                <Route path="/lectures" component={Lectures} />
+                <Route path="/" exact component={Home} />
+              </Switch>
+              {/* </AnimatePresence> */}
             </AnimateSharedLayout>
           </Layout>
         )}

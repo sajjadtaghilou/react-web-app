@@ -17,7 +17,7 @@ const Page = React.forwardRef<
   return (
     <Container
       noPadding={isFullscreen}
-      exit={{ y: 100 }}
+      // exit={{ opacity: 0 }}
       ref={containerRef}
       layoutId="page"
     >
@@ -30,7 +30,9 @@ const Page = React.forwardRef<
         style={{ width: "100%", objectFit: "cover", opacity }}
         alt=""
       />
-      <Title>CALM SEA</Title>
+      <Title layoutId="app_title" transition={{ duration: 0.5 }}>
+        CALM SEA
+      </Title>
       <ContentContainer noPadding={noPadding}>{children}</ContentContainer>
     </Container>
   );
@@ -53,10 +55,18 @@ const Container = styled(motion.div)<{ noPadding?: boolean }>`
   /* overflow-x: hidden; */
 `;
 
-const Title = styled(motion.h2)`
+const Title = styled(motion.h1)`
   position: absolute;
-  top: 0.5em;
-  left: 0.5em;
+  font-size: 2.5rem;
+  font-weight: bold;
+  top: 0.3em;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  mix-blend-mode: overlay;
+  letter-spacing: 0.4em;
 `;
 
 const ContentContainer = styled(motion.div)<{ noPadding?: boolean }>`

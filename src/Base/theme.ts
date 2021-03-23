@@ -2,6 +2,11 @@ import { DefaultTheme } from "styled-components";
 
 export const theme: DefaultTheme = {
   borderRadius: "1rem",
+  zIndex: {
+    high: 1,
+    higher: 10,
+    highest: 100,
+  },
   palette: {
     primary: {
       main: "#0ac7db",
