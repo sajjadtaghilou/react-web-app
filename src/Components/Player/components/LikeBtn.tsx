@@ -7,10 +7,10 @@ import styled, { css } from "styled-components";
 import { AiOutlineHeart, AiTwotoneHeart } from "react-icons/ai";
 import { AnimatePresence, motion, useCycle } from "framer-motion";
 
-const LikeBtn: React.FC<{ isLiked?: boolean; onClick: () => void }> = ({
-  isLiked,
-  onClick,
-}) => {
+const LikeBtn: React.FC<{
+  isLiked?: boolean;
+  onClick: (e: any) => void;
+}> = ({ isLiked, onClick }) => {
   return (
     <Container onClick={onClick}>
       <AiOutlineHeart style={{ opacity: isLiked ? 0 : 1 }} />

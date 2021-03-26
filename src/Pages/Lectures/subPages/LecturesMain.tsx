@@ -14,62 +14,25 @@ import PlayBtn from "Components/Player/components/PlayBtn";
 import Button from "Components/Button";
 
 const LecturesMain: React.FC = () => {
-  const ref = useRef<HTMLDivElement>(null);
   return (
-    <Container ref={ref}>
-      <CardList drag="x" dragConstraints={ref} initial={{ opacity: 1 }}>
+    <Container>
+      <CardListTitle>مدیتیشن ها</CardListTitle>
+      <CardsGrid>
         <div className="card-item-container">
-          <Card
-            backgroundImage={forest}
-            id="forest"
-            title="استرس"
-            footer={<PlayBtn />}
-          />
+          <Card backgroundImage={forest} id="forest" title="استرس" />
         </div>
         <Link to="/lectures/jkhjk">
           <div className="card-item-container">
-            <Card
-              backgroundImage={sea2}
-              id="sea2"
-              title="خواب"
-              footer={<PlayBtn />}
-            />
+            <Card backgroundImage={sea2} id="sea2" title="خواب" />
           </div>
         </Link>
         <div className="card-item-container">
-          <Card
-            backgroundImage={road}
-            id="road"
-            title="انرژی"
-            footer={<PlayBtn />}
-          />
+          <Card backgroundImage={road} id="road" title="انرژی" />
         </div>
         <div className="card-item-container">
-          <Card
-            backgroundImage={sea3}
-            id="sea3"
-            title="انرژی"
-            footer={<PlayBtn />}
-          />
+          <Card backgroundImage={sea3} id="sea3" title="انرژی" />
         </div>
-      </CardList>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
-        laboriosam impedit vitae totam, consequatur velit ipsam tempore
-        voluptatibus incidunt eius? Eaque neque qui consequatur maiores, sit
-        vitae! Quae ipsum nemo laboriosam, nostrum porro hic! Placeat libero
-        sapiente laborum molestias necessitatibus inventore rem, quibusdam sit,
-        eaque velit dicta id porro eum omnis molestiae alias quos! Aliquid
-        quibusdam itaque at corrupti, sed aspernatur expedita nobis excepturi
-        non delectus, nemo vero. Quis cumque provident delectus mollitia sequi
-        eaque laborum eos vero cum doloremque animi, velit aliquam nisi. Itaque
-        repellendus eaque vel similique inventore tempora laboriosam officiis
-        atque. Cumque, voluptatum labore accusantium rerum blanditiis pariatur
-        in optio, amet ratione quae reiciendis obcaecati, corrupti suscipit
-        aspernatur esse! A temporibus aut officia alias asperiores eligendi
-        doloremque rerum tempora quis, saepe recusandae quam quibusdam aliquam
-        nesciunt unde?
-      </p>
+      </CardsGrid>
     </Container>
   );
 };
@@ -79,22 +42,25 @@ export default LecturesMain;
 const Container = styled(motion.div)`
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 `;
 
-const CardList = styled(motion.div)`
+const CardsGrid = styled(motion.div)`
   padding-left: inherit;
   padding-right: inherit;
-  display: inline-flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  padding: 1em;
-  & > * {
-    flex-shrink: 0;
-  }
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 0.5em;
+  padding: 0.5em;
   .card-item-container {
-    width: 40vw;
+    /* width: 40vw; */
     height: 40vw;
   }
-  ${spaceXMixinFactory("large")}
+`;
+
+const CardListTitle = styled.h3`
+  padding-right: 1em;
 `;

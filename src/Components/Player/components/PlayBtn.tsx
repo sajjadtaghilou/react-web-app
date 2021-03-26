@@ -9,7 +9,8 @@ const PlayBtn: React.FC<{ big?: boolean }> = ({ big }) => {
   return (
     <Container
       big={big}
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation();
         ss();
       }}
     >

@@ -1,6 +1,7 @@
 import { motion, AnimationProps, MotionProps } from "framer-motion";
 import { transparentize } from "polished";
-import styled from "styled-components";
+import { InputHTMLAttributes } from "react";
+import styled, { css } from "styled-components";
 import {
   bluryShadowMixin,
   roundedMixin,
@@ -15,8 +16,17 @@ const Input: React.FC<
     inputColor?: colorVariantsPropsType;
     iconColor?: colorVariantsPropsType;
     motion?: AnimationProps & MotionProps;
-  } & React.DOMAttributes<HTMLInputElement>
-> = ({ icon, children, iconColor, inputColor, motion, ...inputProps }) => {
+    isLtr?: boolean;
+  } & InputHTMLAttributes<HTMLInputElement>
+> = ({
+  icon,
+  children,
+  iconColor,
+  inputColor,
+  motion,
+  isLtr,
+  ...inputProps
+}) => {
   return (
     <Container {...motion} {...inputColor}>
       {icon && (
@@ -25,7 +35,7 @@ const Input: React.FC<
         </IconContainer>
       )}
       <InputContainer>
-        <StyledInput {...inputProps} />
+        <StyledInput {...inputProps} isLtr={isLtr} />
       </InputContainer>
     </Container>
   );
@@ -61,13 +71,18 @@ const InputContainer = styled.div`
   flex: 1;
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styled.input<{ isLtr?: boolean }>`
   background-color: transparent;
   font-size: 1rem;
   border: none;
   flex: 1;
   max-width: 100%;
   width: 100%;
+  ${(p) =>
+    p.isLtr &&
+    css`
+      text-align: left;
+    `}
 `;
 const IconContainer = styled.div<colorVariantsPropsType>`
   overflow: hidden;

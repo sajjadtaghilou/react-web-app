@@ -1,4 +1,5 @@
 import Layout from "Base/Layout";
+import ProtectedRoute from "Components/ProtectedRoute";
 import { AnimateSharedLayout, AnimatePresence } from "framer-motion";
 import { Route, Switch, useLocation } from "react-router-dom";
 import Home from "./Home";
@@ -14,12 +15,12 @@ const Routes: React.FC = () => {
         render={() => (
           <Layout>
             <AnimateSharedLayout type="crossfade">
-              {/* <AnimatePresence exitBeforeEnter> */}
-              <Switch location={location} key={location.pathname}>
-                <Route path="/lectures" component={Lectures} />
-                <Route path="/" exact component={Home} />
-              </Switch>
-              {/* </AnimatePresence> */}
+              <AnimatePresence>
+                <Switch location={location} key={location.pathname}>
+                  <ProtectedRoute path="/lectures" component={Lectures} />
+                  <ProtectedRoute path="/" exact component={Home} />
+                </Switch>
+              </AnimatePresence>
             </AnimateSharedLayout>
           </Layout>
         )}

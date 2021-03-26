@@ -22,7 +22,7 @@ const Layout: React.FC = ({ children }) => {
             </HeaderContainer>
           )}
         </AnimatePresence> */}
-        <Body layoutId="Body">{children}</Body>
+        {children}
         <AnimatePresence>
           {!isFullscreen && (
             <FooterContainer
@@ -47,22 +47,23 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${(p) => p.theme.palette.bg.main};
+  overflow: hidden;
 `;
-const Body = styled(motion.main)`
-  flex: 1;
+const Body = styled.main`
+  /* flex: 1; */
+  height: 100%;
   position: relative;
   overflow: hidden;
-  /* height: 100px; */
   width: 100%;
   display: flex;
   flex-direction: column;
 `;
 const FooterContainer = styled(motion.footer)`
+  position: absolute;
+  bottom: 0;
   width: 100%;
   display: inline-block;
-  position: relative;
   z-index: 1;
-  /* padding: 0 1em; */
 `;
 
 const HeaderContainer = styled(motion.div)`

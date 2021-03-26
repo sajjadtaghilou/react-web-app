@@ -1,33 +1,44 @@
-//@ts-nocheck
 /**
- * {{#lambda.indented_star_1}}{{{unescapedDescription}}}{{/lambda.indented_star_1}}
+ * {{{description}}}
  * @export
  * @interface {{classname}}
  */
 export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 {{#additionalPropertiesType}}
     [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};
+
 {{/additionalPropertiesType}}
 {{#vars}}
     /**
-     * {{#lambda.indented_star_4}}{{{unescapedDescription}}}{{/lambda.indented_star_4}}
+     * {{{description}}}
      * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
      * @memberof {{classname}}
+    {{#deprecated}}
+     * @deprecated
+    {{/deprecated}}
      */
-    {{#isReadOnly}}readonly {{/isReadOnly}}{{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
+    {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
 {{/vars}}
 }{{#hasEnums}}
 
 {{#vars}}
 {{#isEnum}}
 /**
-* @export
-* @enum {string}
-*/
-export enum {{classname}}{{enumName}} {
+    * @export
+    * @enum {string}
+    */
+export enum {{enumName}} {
 {{#allowableValues}}
     {{#enumVars}}
+    {{#enumDescription}}
+    /**
+    * {{enumDescription}}
+    */
+    {{/enumDescription}}
     {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
     {{/enumVars}}
 {{/allowableValues}}
-}{{/isEnum}}{{/vars}}{{/hasEnums}}
+}
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}

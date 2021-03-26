@@ -6,6 +6,7 @@ import { CgList } from "react-icons/cg";
 import { BiUser, BiLineChart } from "react-icons/bi";
 import NavItem from "./components/NavItem";
 import { Link, matchPath, useLocation } from "react-router-dom";
+import { transparentize } from "polished";
 
 const navRoutes: {
   title: string;
@@ -69,7 +70,9 @@ const Nav = styled.nav`
   border-radius: 0.7em;
   margin: 0.4em;
   padding: 0.5em;
-  background-color: ${(p) => p.theme.palette["card-bg"].main};
+  background-color: ${(p) =>
+    transparentize(0.4, p.theme.palette["card-bg"].main)};
+  backdrop-filter: blur(10px);
   /* ${bluryShadowMixin} */
 `;
 

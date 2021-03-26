@@ -26,7 +26,7 @@ const Player: React.FC<{
     audioList: playlist.flatMap((p) =>
       "lectures" in p
         ? p.lectures.map(({ path }) => ({ path }))
-        : { path: p.musicPath }
+        : { path: p.music_path }
     ),
   });
   const [isPlaylistVisible, toggleIsPlaylistVisible] = useCycle(false, true);
@@ -68,11 +68,22 @@ const Player: React.FC<{
         <RiCloseLine />
       </CloseBtnContainer>
       <ControlsContainer>
-        <LikeBtn isLiked={isLiked} onClick={() => toggleIsLiked()} />
+        <LikeBtn
+          isLiked={isLiked}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleIsLiked();
+          }}
+        />
         <ForwardBtn />
         <PlayBtn />
         <BackwardBtn />
-        <PlaylistBtn onClick={() => toggleIsPlaylistVisible()} />
+        <PlaylistBtn
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleIsPlaylistVisible();
+          }}
+        />
       </ControlsContainer>
       <AnimatePresence>
         {isPlaylistVisible && (

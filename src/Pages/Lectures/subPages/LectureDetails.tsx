@@ -12,6 +12,7 @@ import { useAtom } from "jotai";
 import PlayBtn from "Components/Player/components/PlayBtn";
 import Button from "Components/Button";
 import { LayoutAtom } from "Contexts/LayouContext";
+import PlayList from "Components/PlayList";
 
 const LectureDetails: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -27,7 +28,6 @@ const LectureDetails: React.FC = () => {
           id="sea2"
           title="خواب"
           isExpanded
-          footer={<PlayBtn />}
         />
       </CardContainer>
       <DescContainer>
@@ -43,38 +43,31 @@ const LectureDetails: React.FC = () => {
         >
           لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
           استفاده از طراحان گرافیک است، چاپگرها و متون بلکه موجود طراحی اساسا
-          مورد استفاده قرار گیرد. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم
-          از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه
-          موجود طراحی اساسا مورد استفاده قرار گیرد. لورم ایپسوم متن ساختگی با
-          تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است،
-          چاپگرها و متون بلکه موجود طراحی اساسا مورد استفاده قرار گیرد.
+          مورد استفاده قرار گیرد. لورم ایپسوم متن ساختگی با تولید سادگی
+          نامفهومچاپگرها و متون بلکه موجود طراحی اساسا مورد استفاده قرار گیرد.
         </LectureDesc>
-        <ButtonsContainer
-          initial={{ y: 5, opacity: 0 }}
-          animate={{
-            y: 0,
-            opacity: 1,
-            transition: { delay: 2, bounce: 0, duration: 0.5 },
+        <div
+          style={{
+            flex: 1,
+            width: "100%",
+            overflow: "hidden",
           }}
-          exit={{ y: 35, opacity: 0 }}
-          transition={{ duration: 0.5, bounce: 0 }}
         >
-          <Button
-            onClick={() => {
-              setLayoutAtom({ isFullscreen: true });
-              history.push(`${match.path}/id/play`);
-            }}
-            fullWidth
-            bg="tertiary"
-            isGradient
-            hasGlow
-          >
-            پخش نمونه
-          </Button>
-          <Button fullWidth bg="primary" isGradient>
-            اضافه به لیست
-          </Button>
-        </ButtonsContainer>
+          <PlayList
+            items={[
+              { title: "salam1" },
+              { title: "salam2" },
+              { title: "salam3" },
+              { title: "salam4" },
+              { title: "salam5" },
+              { title: "salam6" },
+              { title: "salam7" },
+              { title: "salam8" },
+              { title: "salam9" },
+              { title: "salam10" },
+            ]}
+          />
+        </div>
       </DescContainer>
     </Container>
   );
@@ -85,7 +78,8 @@ export default LectureDetails;
 const Container = styled(motion.div)`
   width: 100%;
   /* height: 100%; */
-  /* overflow-x: hidden; */
+  overflow: hidden;
+  flex: 1;
   display: flex;
   flex-direction: column;
   padding: 1em;
@@ -102,6 +96,7 @@ const DescContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
   ${spaceYMixinFactory("large")}
 `;
 

@@ -30,7 +30,6 @@ const Lectures: React.FC = () => {
       {isLectureDetails && <LectureDetails />}
 
       {/* {isLecturePlay && <LecturePlayer />} */}
-      <button onClick={() => setS(!s)}>salam</button>
       <Player
         isVisible={s}
         closePlayer={() => setS(false)}

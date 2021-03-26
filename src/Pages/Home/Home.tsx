@@ -1,5 +1,5 @@
 import Page from "Components/Page";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import sea2 from "Assets/images/sea2.jpg";
@@ -8,97 +8,76 @@ import winter from "Assets/images/winter.jpg";
 import sea from "Assets/images/sea.jpg";
 import forest from "Assets/images/forest.jpg";
 import road from "Assets/images/road.jpg";
-import { spaceXMixinFactory } from "Styles/mixins";
 import Card from "Components/Card";
 import { Link } from "react-router-dom";
 import PlayBtn from "Components/Player/components/PlayBtn";
+import headBg from "Assets/images/head-bg.jpg";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { api } from "Api/Api";
 
 const Home: React.FC = () => {
-  const meditationRef = useRef<HTMLDivElement>(null);
-  const musicRef = useRef<HTMLDivElement>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    api.getHomeLists().then(console.log);
+  }, []);
   return (
-    <Page noPadding>
-      <Container ref={meditationRef}>
+    <Page noPadding ref={pageRef}>
+      <motion.img
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        src={headBg}
+        style={{ width: "100%", objectFit: "cover" }}
+        alt=""
+      />
+      <PageTitle>CALM SEA</PageTitle>
+      <Container>
         <CardListTitle>مدیتیشن ها</CardListTitle>
-        <CardList
-          drag="x"
-          dragConstraints={meditationRef}
-          initial={{ opacity: 1 }}
+        <Swiper
+          spaceBetween={10}
+          slidesPerView="auto"
+          style={{ padding: "0 10px" }}
         >
-          <div className="card-item-container">
+          <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
+            <Card backgroundImage={forest} id="forest" title="استرس" />
+          </SwiperSlide>
+          <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
+            <Link to="/lectures/jkhjk">
+              <Card backgroundImage={sea2} id="sea2" title="خواب" />
+            </Link>
+          </SwiperSlide>
+          <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
+            <Card backgroundImage={road} id="road" title="انرژی" />
+          </SwiperSlide>
+          <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
+            <Card backgroundImage={sea3} id="sea3" title="انرژی" />
+          </SwiperSlide>
+        </Swiper>
+        <CardListTitle>مدیتیشن ها</CardListTitle>
+        <Swiper
+          spaceBetween={10}
+          slidesPerView="auto"
+          style={{ padding: "0 10px" }}
+        >
+          <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
             <Card
               backgroundImage={forest}
-              id="forest"
+              id="1"
               title="استرس"
-              footer={<PlayBtn />}
+              duration="03:45"
             />
-          </div>
-          <Link to="/lectures/jkhjk">
-            <div className="card-item-container">
-              <Card
-                backgroundImage={sea2}
-                id="sea2"
-                title="خواب"
-                footer={<PlayBtn />}
-              />
-            </div>
-          </Link>
-          <div className="card-item-container">
-            <Card
-              backgroundImage={road}
-              id="road"
-              title="انرژی"
-              footer={<PlayBtn />}
-            />
-          </div>
-          <div className="card-item-container">
-            <Card
-              backgroundImage={sea3}
-              id="sea3"
-              title="انرژی"
-              footer={<PlayBtn />}
-            />
-          </div>
-        </CardList>
-      </Container>
-      <Container ref={musicRef}>
-        <CardListTitle>موزیک ها</CardListTitle>
-        <CardList drag="x" dragConstraints={musicRef} initial={{ opacity: 1 }}>
-          <div className="card-item-container">
-            <Card
-              backgroundImage={winter}
-              id="m1"
-              title="استرس"
-              footer={<PlayBtn />}
-            />
-          </div>
-          <Link to="/lectures/jkhjk">
-            <div className="card-item-container">
-              <Card
-                backgroundImage={sea}
-                id="m2"
-                title="خواب"
-                footer={<PlayBtn />}
-              />
-            </div>
-          </Link>
-          <div className="card-item-container">
-            <Card
-              backgroundImage={road}
-              id="m3"
-              title="انرژی"
-              footer={<PlayBtn />}
-            />
-          </div>
-          <div className="card-item-container">
-            <Card
-              backgroundImage={sea3}
-              id="m4"
-              title="انرژی"
-              footer={<PlayBtn />}
-            />
-          </div>
-        </CardList>
+          </SwiperSlide>
+          <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
+            <Link to="/lectures/jkhjk">
+              <Card backgroundImage={sea2} id="2" title="خواب" />
+            </Link>
+          </SwiperSlide>
+          <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
+            <Card backgroundImage={road} id="3" title="انرژی" />
+          </SwiperSlide>
+          <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
+            <Card backgroundImage={sea3} id="4" title="انرژی" />
+          </SwiperSlide>
+        </Swiper>
       </Container>
     </Page>
   );
@@ -109,26 +88,23 @@ export default Home;
 const Container = styled(motion.div)`
   width: 100%;
   /* height: 100%; */
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
+`;
+
+const PageTitle = styled(motion.h1)`
+  position: absolute;
+  font-size: 2.5rem;
+  font-weight: bold;
+  top: 0.3em;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  mix-blend-mode: overlay;
+  letter-spacing: 0.4em;
 `;
 
 const CardListTitle = styled.h3`
   padding-right: 1em;
-`;
-
-const CardList = styled(motion.div)`
-  padding-left: inherit;
-  padding-right: inherit;
-  display: inline-flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  padding: 1em;
-  & > * {
-    flex-shrink: 0;
-  }
-  .card-item-container {
-    width: 40vw;
-    height: 40vw;
-  }
-  ${spaceXMixinFactory("large")}
 `;
