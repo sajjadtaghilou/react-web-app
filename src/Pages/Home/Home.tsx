@@ -1,27 +1,19 @@
 import Page from "Components/Page";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import sea2 from "Assets/images/sea2.jpg";
-import sea3 from "Assets/images/sea3.jpg";
-import winter from "Assets/images/winter.jpg";
-import sea from "Assets/images/sea.jpg";
-import forest from "Assets/images/forest.jpg";
-import road from "Assets/images/road.jpg";
 import Card from "Components/Card";
 import { Link } from "react-router-dom";
-import PlayBtn from "Components/Player/components/PlayBtn";
 import headBg from "Assets/images/head-bg.jpg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { api } from "Api/Api";
+import { useGet } from "Hooks/useQuery";
+import { meditationIdMaker, musicIdMaker } from "Animations/layoutIdMaker";
 
 const Home: React.FC = () => {
-  const pageRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    api.getHomeLists().then(console.log);
-  }, []);
+  const { data, isLoading } = useGet(api.getHomeLists);
   return (
-    <Page noPadding ref={pageRef}>
+    <Page noPadding>
       <motion.img
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -31,53 +23,40 @@ const Home: React.FC = () => {
       />
       <PageTitle>CALM SEA</PageTitle>
       <Container>
-        <CardListTitle>مدیتیشن ها</CardListTitle>
-        <Swiper
-          spaceBetween={10}
-          slidesPerView="auto"
-          style={{ padding: "0 10px" }}
-        >
-          <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
-            <Card backgroundImage={forest} id="forest" title="استرس" />
-          </SwiperSlide>
-          <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
-            <Link to="/lectures/jkhjk">
-              <Card backgroundImage={sea2} id="sea2" title="خواب" />
-            </Link>
-          </SwiperSlide>
-          <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
-            <Card backgroundImage={road} id="road" title="انرژی" />
-          </SwiperSlide>
-          <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
-            <Card backgroundImage={sea3} id="sea3" title="انرژی" />
-          </SwiperSlide>
-        </Swiper>
-        <CardListTitle>مدیتیشن ها</CardListTitle>
-        <Swiper
-          spaceBetween={10}
-          slidesPerView="auto"
-          style={{ padding: "0 10px" }}
-        >
-          <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
-            <Card
-              backgroundImage={forest}
-              id="1"
-              title="استرس"
-              duration="03:45"
-            />
-          </SwiperSlide>
-          <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
-            <Link to="/lectures/jkhjk">
-              <Card backgroundImage={sea2} id="2" title="خواب" />
-            </Link>
-          </SwiperSlide>
-          <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
-            <Card backgroundImage={road} id="3" title="انرژی" />
-          </SwiperSlide>
-          <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
-            <Card backgroundImage={sea3} id="4" title="انرژی" />
-          </SwiperSlide>
-        </Swiper>
+        {Array.from(data?.data.home_lists || []).map((homeItem, rowIndex) => (
+          <>
+            <CardListTitle>{homeItem.name}</CardListTitle>
+            <Swiper
+              spaceBetween={10}
+              slidesPerView="auto"
+              style={{ padding: "0 10px" }}
+            >
+              {homeItem.items.map((item) => {
+                const layoutId = item.meditation
+                  ? meditationIdMaker(item.meditation.id) + "_" + rowIndex
+                  : item.music
+                  ? musicIdMaker(item.music.id) + "_" + rowIndex
+                  : "__";
+                return (
+                  <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
+                    <Link
+                      to={`/meditations/${item.meditation?.id}?layoutId=${layoutId}`}
+                    >
+                      {/*TODO music */}
+                      <Card
+                        backgroundImage={`${process.env.REACT_APP_PUBLIC_PATH}${
+                          item.meditation?.image.path || item.music?.image.path
+                        }`}
+                        id={layoutId}
+                        title={item.music?.title || item.meditation?.name || ""}
+                      />
+                    </Link>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+          </>
+        ))}
       </Container>
     </Page>
   );
@@ -87,8 +66,6 @@ export default Home;
 
 const Container = styled(motion.div)`
   width: 100%;
-  /* height: 100%; */
-  /* overflow-x: hidden; */
 `;
 
 const PageTitle = styled(motion.h1)`
@@ -105,6 +82,8 @@ const PageTitle = styled(motion.h1)`
   letter-spacing: 0.4em;
 `;
 
-const CardListTitle = styled.h3`
+const CardListTitle = styled.h4`
   padding-right: 1em;
+  margin: 1em 0 0.3em 0;
+  font-weight: bold;
 `;

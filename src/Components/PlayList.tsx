@@ -5,9 +5,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 export interface PlayListProps {
   items: { title: string }[]; //TODO add music or meditation
+  onItemClicked: (index: number) => void;
 }
 
-const PlayList: React.FC<PlayListProps> = ({ items }) => {
+const PlayList: React.FC<PlayListProps> = ({ items, onItemClicked }) => {
   return (
     <Swiper
       centeredSlides
@@ -15,8 +16,11 @@ const PlayList: React.FC<PlayListProps> = ({ items }) => {
       style={{ height: "100%", width: "100%" }}
       slidesPerView="auto"
     >
-      {items.map((item) => (
-        <SwiperSlide style={{ height: "auto" }}>
+      {items.map((item, i) => (
+        <SwiperSlide
+          onClick={() => onItemClicked(i)}
+          style={{ height: "auto" }}
+        >
           <ListItem>
             <BsPlayFill />
             <p className="title">{item.title}</p>

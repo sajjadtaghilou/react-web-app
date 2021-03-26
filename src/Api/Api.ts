@@ -1,8 +1,4 @@
-// import { DefaultApi } from "./GeneratedApi/apis/DefaultApi";
-// import { Configuration } from "./GeneratedApi/runtime";
-
 import { Configuration, DefaultApi } from "./GeneratedApi";
-import { setBearerAuthToObject } from "./GeneratedApi/common";
 
 class Api extends DefaultApi {
   private static instance: Api;
@@ -18,12 +14,8 @@ class Api extends DefaultApi {
     }
     return Api.instance;
   }
-  async changeConfig(configuration: Configuration) {
+  changeConfig(configuration: Configuration) {
     configuration.basePath = this.configuration?.basePath;
-    const headers = {};
-    await setBearerAuthToObject(headers, configuration);
-    configuration.baseOptions = { headers };
-    console.log({ configuration });
     this.configuration = configuration;
   }
 }

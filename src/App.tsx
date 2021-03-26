@@ -5,7 +5,7 @@ import useAuth from "Hooks/useAuth";
 import { useEffect } from "react";
 
 function App() {
-  const { checkIsLogin } = useAuth();
+  const { checkIsLogin, isLoggedIn } = useAuth();
   useEffect(() => {
     checkIsLogin();
   }, []);

@@ -15,6 +15,7 @@ import { useMutate } from "Hooks/useQuery";
 import { BsPersonFill } from "react-icons/bs";
 import useAuth from "Hooks/useAuth";
 import { slideInOutVariant } from "Animations/variants";
+import useQueryParams from "Hooks/useQueryParams";
 
 const Login: React.FC = () => {
   const {
@@ -217,9 +218,11 @@ const usePageState = function () {
     name: "",
   });
   const { isLoggedIn, loggedIn } = useAuth();
+  const queryParams = useQueryParams();
   useEffect(() => {
+    const from = queryParams.get("from");
     if (isLoggedIn) {
-      history.push("/");
+      return history.push(from || "/");
     }
   }, [isLoggedIn]);
   useEffect(() => {
@@ -255,7 +258,7 @@ const usePageState = function () {
     api.postAuthAppLogin,
     {
       onSuccess(res) {
-        loggedIn(res.data.token);
+        loggedIn(res.data.token, res.data.user);
       },
     }
   );
@@ -263,7 +266,7 @@ const usePageState = function () {
     api.postAuthMobileValidation,
     {
       onSuccess(res) {
-        loggedIn(res.data.token);
+        loggedIn(res.data.token, res.data.user);
       },
     }
   );

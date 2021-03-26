@@ -1,8 +1,8 @@
 import { motion, AnimateSharedLayout } from "framer-motion";
 import styled from "styled-components";
 import { bluryShadowMixin } from "Styles/mixins";
-import { RiHomeLine } from "react-icons/ri";
-import { CgList } from "react-icons/cg";
+import { RiHomeLine, RiMusic2Fill } from "react-icons/ri";
+import { GiMeditation } from "react-icons/gi";
 import { BiUser, BiLineChart } from "react-icons/bi";
 import NavItem from "./components/NavItem";
 import { Link, matchPath, useLocation } from "react-router-dom";
@@ -21,20 +21,20 @@ const navRoutes: {
     isExact: true,
   },
   {
-    icon: <CgList />,
-    title: "دوره ها",
-    path: "/lectures",
+    icon: <GiMeditation />,
+    title: "مدیتیشن",
+    path: "/meditations",
+  },
+  {
+    icon: <RiMusic2Fill />,
+    title: "موزیک",
+    path: "/musics",
   },
   {
     icon: <BiUser />,
     title: "پروفایل",
     path: "/login",
     // path: "/profile",
-  },
-  {
-    icon: <BiLineChart />,
-    title: "تحلیل",
-    path: "/analytics",
   },
 ];
 

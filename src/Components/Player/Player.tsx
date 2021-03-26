@@ -8,9 +8,10 @@ import { ForwardBtn, BackwardBtn } from "./components/SeekButtons";
 import PlaylistBtn from "./components/PlaylistBtn";
 import { RiCloseLine } from "react-icons/ri";
 import { useEffect } from "react";
+import { audioType } from "./usePlayer";
 
 const Player: React.FC<{
-  playlist: (Music | Meditation)[];
+  playlist: audioType[];
   isVisible?: boolean;
   closePlayer: () => void;
   onTrackEnd: (track: Music | Meditation) => void;
@@ -23,11 +24,7 @@ const Player: React.FC<{
   closePlayer,
 }) => {
   const { isPlaying, activeIndex, play, pause, forward, rewind } = usePlayer({
-    audioList: playlist.flatMap((p) =>
-      "lectures" in p
-        ? p.lectures.map(({ path }) => ({ path }))
-        : { path: p.music_path }
-    ),
+    audioList: playlist,
   });
   const [isPlaylistVisible, toggleIsPlaylistVisible] = useCycle(false, true);
   const [isLiked, toggleIsLiked] = useCycle(false, true); //FIXME

@@ -84,6 +84,7 @@ const TitleContainer = styled(motion.div)`
   display: flex;
   align-items: center;
   padding: 0.2em 0;
+  backdrop-filter: blur(2px);
 `;
 
 const Title = styled(motion.h5)`

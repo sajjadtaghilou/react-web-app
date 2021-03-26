@@ -10,7 +10,13 @@ const Page = React.forwardRef<
 >(({ children }, ref) => {
   const [{ isFullscreen }] = useAtom(LayoutAtom);
   return (
-    <Container isFullscreen={isFullscreen} ref={ref} exit={{ opacity: 0 }}>
+    <Container
+      isFullscreen={isFullscreen}
+      ref={ref}
+      exit={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      initial={{ opacity: 0 }}
+    >
       {children}
     </Container>
   );

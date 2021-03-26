@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 
-export type audioType = { path: string };
+export type audioType = { path: string | null };
 
 const SEEK_SECONDS = 10;
 export function usePlayer({ audioList }: { audioList: audioType[] }) {
@@ -8,7 +8,9 @@ export function usePlayer({ audioList }: { audioList: audioType[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const audioRef = useRef(new Audio());
   const play = useCallback((index: number) => {
-    audioRef.current.src = audioList[index].path;
+    const path = audioList[index].path;
+    if (!path) return;
+    audioRef.current.src = path;
     audioRef.current.play(); //TODO onload maybe?
     setIsPlaying(true);
   }, []);

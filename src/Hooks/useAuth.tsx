@@ -1,5 +1,5 @@
 import { api } from "Api/Api";
-import { Configuration } from "Api/GeneratedApi";
+import { Configuration, User } from "Api/GeneratedApi";
 import { AuthAtom } from "Contexts/AuthContext";
 import { useAtom } from "jotai";
 import Cookies from "js-cookie";
@@ -10,43 +10,36 @@ const COOKIE_NAME = "token";
 export default function () {
   const [{ isLoggedIn }, setAuthAtom] = useAtom(AuthAtom);
 
-  const loggedIn = useCallback(async (token: string) => {
+  const loggedIn = useCallback((token: string, user: User) => {
     Cookies.set(COOKIE_NAME, token, {
       domain: process.env.REACT_APP_COOKIE_DOMAIN,
       expires: 1000,
       path: "/",
       sameSite: "None",
     });
-    await api.changeConfig(new Configuration({ accessToken: token }));
-    setAuthAtom({ isLoggedIn: true });
-    saveTokenToLocalStorage(token);
+    api.changeConfig(new Configuration({ accessToken: token }));
+    setAuthAtom({ isLoggedIn: true, user });
+    saveTokenToLocalStorage(token, user);
   }, []);
 
   const loggedOut = useCallback(() => {
     Cookies.remove(COOKIE_NAME);
-    setAuthAtom({ isLoggedIn: false });
+    setAuthAtom({ isLoggedIn: false, user: null });
     api.changeConfig(new Configuration());
     remoteTokenFromLocalStorage();
   }, []);
-  const saveTokenToLocalStorage = useCallback((token: string) => {
-    localStorage.setItem(COOKIE_NAME, token);
-  }, []);
-  const remoteTokenFromLocalStorage = useCallback(() => {
-    localStorage.removeItem(COOKIE_NAME);
-  }, []);
-  const getTokenFromLocalStorage = useCallback(() => {
-    return localStorage.getItem(COOKIE_NAME);
-  }, []);
 
-  const checkIsLogin = useCallback(async () => {
+  const checkIsLogin = useCallback(() => {
     const savedToken = getTokenFromLocalStorage();
-    console.log({ savedToken });
     if (!savedToken) {
       loggedOut();
       return;
     }
-    await loggedIn(savedToken);
-    api.getUserAuth().catch(loggedOut);
+    loggedIn(savedToken.token, savedToken.user);
+    api
+      .getUserAuth()
+      .then(({ data: { user } }) => loggedIn(savedToken.token, user))
+      .catch(loggedOut);
   }, []);
   return {
     isLoggedIn,
@@ -55,3 +48,21 @@ export default function () {
     checkIsLogin,
   };
 }
+
+//localstorage
+const saveTokenToLocalStorage = (token: string, user: User) => {
+  localStorage.setItem(COOKIE_NAME, JSON.stringify({ token, user }));
+};
+
+const remoteTokenFromLocalStorage = () => {
+  localStorage.removeItem(COOKIE_NAME);
+};
+
+const getTokenFromLocalStorage = (): {
+  token: string;
+  user: User;
+} | null => {
+  const savedToken = localStorage.getItem(COOKIE_NAME);
+  if (!savedToken) return null;
+  return JSON.parse(savedToken);
+};
