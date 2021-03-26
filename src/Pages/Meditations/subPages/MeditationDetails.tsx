@@ -1,0 +1,139 @@
+import React, { useRef, useState } from "react";
+import styled from "styled-components";
+import { AnimatePresence, motion, useCycle } from "framer-motion";
+import Page from "Components/Page";
+import sea2 from "Assets/images/sea2.jpg";
+import forest from "Assets/images/forest.jpg";
+import road from "Assets/images/road.jpg";
+import { spaceXMixinFactory, spaceYMixinFactory } from "Styles/mixins";
+import Card from "Components/Card";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import { useAtom } from "jotai";
+import { LayoutAtom } from "Contexts/LayouContext";
+import PlayList from "Components/PlayList";
+import { meditationIdMaker } from "Animations/layoutIdMaker";
+import { useGet } from "Hooks/useQuery";
+import { api } from "Api/Api";
+import useQueryParams from "Hooks/useQueryParams";
+import Player from "Components/Player";
+import {
+  getImageAbsolutePath,
+  getMeditationLectureAbsolutePath,
+} from "Utils/filePathUtils";
+import { AuthAtom } from "Contexts/AuthContext";
+
+const LectureDetails: React.FC = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const queryParams = useQueryParams();
+  const match = useRouteMatch<{ id: string }>();
+  const { data: meditation } = useGet(
+    api.getMeditationsId,
+    {},
+    +match.params.id
+  );
+  const [isPlayerVisible, setIsPlayerVisible] = useState(false);
+  const [{ user }] = useAtom(AuthAtom);
+  return (
+    <Container ref={ref}>
+      <CardContainer>
+        {meditation && (
+          <Card
+            backgroundImage={getImageAbsolutePath(
+              meditation.data.meditation.image.path || ""
+            )}
+            id={queryParams.get("layoutId") || ""}
+            title={meditation.data.meditation.name}
+            duration={
+              meditation.data.meditation.lectures.length > 1
+                ? `${meditation.data.meditation.lectures.length} درس`
+                : `${meditation.data.meditation.lectures[0].duration} دقیقه`
+            }
+            isExpanded
+          />
+        )}
+      </CardContainer>
+      <DescContainer>
+        <LectureDesc
+          initial={{ y: 5, opacity: 0 }}
+          animate={{
+            y: 0,
+            opacity: 1,
+            transition: { delay: 1, bounce: 0, duration: 0.3 },
+          }}
+          exit={{ y: 35, opacity: 0 }}
+          transition={{ duration: 0.5, bounce: 0 }}
+        >
+          {meditation?.data.meditation.description}
+        </LectureDesc>
+        <div
+          style={{
+            flex: 1,
+            width: "100%",
+            overflow: "hidden",
+          }}
+        >
+          {meditation && (
+            <PlayList
+              items={meditation.data.meditation.lectures.map((lec) => ({
+                title: lec.name,
+              }))}
+              onItemClicked={(index) => {
+                setIsPlayerVisible(true);
+              }}
+            />
+          )}
+        </div>
+      </DescContainer>
+      {meditation && (
+        <Player
+          isVisible={isPlayerVisible}
+          closePlayer={() => setIsPlayerVisible(false)}
+          onTrackEnd={() => {}}
+          playlist={meditation.data.meditation.lectures.map((lec) => ({
+            path: getMeditationLectureAbsolutePath(lec, user!),
+          }))}
+          backgroundImage={getImageAbsolutePath(
+            meditation.data.meditation.image.path
+          )}
+        />
+      )}
+    </Container>
+  );
+};
+
+export default LectureDetails;
+
+const Container = styled(motion.div)`
+  width: 100%;
+  /* height: 100%; */
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+`;
+const CardContainer = styled.div`
+  width: 100%;
+  height: 50vw;
+`;
+
+const DescContainer = styled.div`
+  flex: 1;
+  font-size: 0.8rem;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  ${spaceYMixinFactory("large")}
+`;
+
+const LectureDesc = styled(motion.p)`
+  width: 100%;
+  text-align: justify;
+`;
+
+const ButtonsContainer = styled(motion.div)`
+  display: flex;
+  ${spaceXMixinFactory("large")}
+`;
