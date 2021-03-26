@@ -13,23 +13,24 @@ export default function () {
   const loggedIn = useCallback((token: string, user: User) => {
     Cookies.set(COOKIE_NAME, token, {
       domain: process.env.REACT_APP_COOKIE_DOMAIN,
-      expires: 1000,
+      expires: 100,
       path: "/",
-      sameSite: "None",
+      sameSite: "lax",
     });
+    // document.cookie = `token=${token}; path=/; domain=.hnmanager.ir;`;
     api.changeConfig(new Configuration({ accessToken: token }));
     setAuthAtom({ isLoggedIn: true, user });
     saveTokenToLocalStorage(token, user);
   }, []);
 
   const loggedOut = useCallback(() => {
-    Cookies.remove(COOKIE_NAME);
+    // Cookies.remove(COOKIE_NAME);
     setAuthAtom({ isLoggedIn: false, user: null });
     api.changeConfig(new Configuration());
     remoteTokenFromLocalStorage();
   }, []);
 
-  const checkIsLogin = useCallback(() => {
+  const checkIsLogin = () => {
     const savedToken = getTokenFromLocalStorage();
     if (!savedToken) {
       loggedOut();
@@ -40,7 +41,7 @@ export default function () {
       .getUserAuth()
       .then(({ data: { user } }) => loggedIn(savedToken.token, user))
       .catch(loggedOut);
-  }, []);
+  };
   return {
     isLoggedIn,
     loggedIn,

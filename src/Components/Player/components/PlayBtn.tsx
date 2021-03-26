@@ -4,19 +4,24 @@ import styled, { css } from "styled-components";
 import { IoPlay, IoPause } from "react-icons/io5";
 import { AnimatePresence, motion, useCycle } from "framer-motion";
 
-const PlayBtn: React.FC<{ big?: boolean }> = ({ big }) => {
-  const [s, ss] = useCycle(false, true);
+const PlayBtn: React.FC<{
+  big?: boolean;
+  isPlaying?: boolean;
+  handleClick?: () => void;
+}> = ({ big, isPlaying, handleClick }) => {
   return (
     <Container
       big={big}
       onClick={(e) => {
         e.stopPropagation();
-        ss();
+        handleClick && handleClick();
       }}
     >
       <AnimatePresence>
-        {!s && <IoPlay style={{ position: "relative", left: "0.1em" }} />}
-        {s && <IoPause />}
+        {!isPlaying && (
+          <IoPlay style={{ position: "relative", left: "0.1em" }} />
+        )}
+        {isPlaying && <IoPause />}
       </AnimatePresence>
     </Container>
   );

@@ -23,6 +23,7 @@ import {
 import { AuthAtom } from "Contexts/AuthContext";
 
 const LectureDetails: React.FC = () => {
+  const [selectedPath, setSelectedPath] = useState("");
   const ref = useRef<HTMLDivElement>(null);
   const queryParams = useQueryParams();
   const match = useRouteMatch<{ id: string }>();
@@ -74,11 +75,21 @@ const LectureDetails: React.FC = () => {
         >
           {meditation && (
             <PlayList
-              items={meditation.data.meditation.lectures.map((lec) => ({
+              items={meditation.data.meditation.lectures.map((lec, i) => ({
                 title: lec.name,
+                isUnlocked: !getMeditationLectureAbsolutePath(
+                  meditation.data.meditation.lectures[i],
+                  user!
+                ),
               }))}
               onItemClicked={(index) => {
                 setIsPlayerVisible(true);
+                setSelectedPath(
+                  getMeditationLectureAbsolutePath(
+                    meditation.data.meditation.lectures[index],
+                    user!
+                  ) || ""
+                );
               }}
             />
           )}
@@ -89,9 +100,7 @@ const LectureDetails: React.FC = () => {
           isVisible={isPlayerVisible}
           closePlayer={() => setIsPlayerVisible(false)}
           onTrackEnd={() => {}}
-          playlist={meditation.data.meditation.lectures.map((lec) => ({
-            path: getMeditationLectureAbsolutePath(lec, user!),
-          }))}
+          path={selectedPath}
           backgroundImage={getImageAbsolutePath(
             meditation.data.meditation.image.path
           )}

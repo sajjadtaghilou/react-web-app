@@ -8,29 +8,29 @@ import { ForwardBtn, BackwardBtn } from "./components/SeekButtons";
 import PlaylistBtn from "./components/PlaylistBtn";
 import { RiCloseLine } from "react-icons/ri";
 import { useEffect } from "react";
-import { audioType } from "./usePlayer";
 
 const Player: React.FC<{
-  playlist: audioType[];
   isVisible?: boolean;
   closePlayer: () => void;
   onTrackEnd: (track: Music | Meditation) => void;
   backgroundImage: string;
+  path: string;
 }> = ({
   isVisible = false,
-  playlist,
   onTrackEnd,
   backgroundImage,
   closePlayer,
+  path,
 }) => {
-  const { isPlaying, activeIndex, play, pause, forward, rewind } = usePlayer({
-    audioList: playlist,
-  });
+  const { isPlaying, play, pause, forward, rewind } = usePlayer(path);
   const [isPlaylistVisible, toggleIsPlaylistVisible] = useCycle(false, true);
   const [isLiked, toggleIsLiked] = useCycle(false, true); //FIXME
   const [isDimmed, toggleIsDimmed] = useCycle(false, true);
   useEffect(() => {
     toggleIsDimmed(0);
+    if (!isVisible) {
+      pause();
+    }
   }, [isVisible]);
   return (
     <Container
@@ -51,7 +51,7 @@ const Player: React.FC<{
         transition={{
           delay: 1,
           duration: 100,
-          repeat: isVisible ? Infinity : 0, //TODO stop animation when unvisible
+          repeat: Infinity, //TODO stop animation when unvisible
           repeatType: "mirror",
         }}
         animate={{ backgroundPosition: "100% 100%" }}
@@ -65,22 +65,32 @@ const Player: React.FC<{
         <RiCloseLine />
       </CloseBtnContainer>
       <ControlsContainer>
-        <LikeBtn
+        {/* <LikeBtn
           isLiked={isLiked}
           onClick={(e) => {
             e.stopPropagation();
             toggleIsLiked();
           }}
+        /> */}
+        <ForwardBtn
+          onClick={(e) => {
+            e.stopPropagation();
+            forward();
+          }}
         />
-        <ForwardBtn />
-        <PlayBtn />
-        <BackwardBtn />
-        <PlaylistBtn
+        <PlayBtn isPlaying={isPlaying} handleClick={isPlaying ? pause : play} />
+        <BackwardBtn
+          onClick={(e) => {
+            e.stopPropagation();
+            rewind();
+          }}
+        />
+        {/* <PlaylistBtn
           onClick={(e) => {
             e.stopPropagation();
             toggleIsPlaylistVisible();
           }}
-        />
+        /> */}
       </ControlsContainer>
       <AnimatePresence>
         {isPlaylistVisible && (

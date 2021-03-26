@@ -4,7 +4,7 @@ import { BsPlayFill } from "react-icons/bs";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 export interface PlayListProps {
-  items: { title: string }[]; //TODO add music or meditation
+  items: { title: string; isUnlocked: boolean }[]; //TODO add music or meditation
   onItemClicked: (index: number) => void;
 }
 
@@ -19,12 +19,16 @@ const PlayList: React.FC<PlayListProps> = ({ items, onItemClicked }) => {
       {items.map((item, i) => (
         <SwiperSlide
           onClick={() => onItemClicked(i)}
-          style={{ height: "auto" }}
+          style={{
+            height: "auto",
+            pointerEvents: !item.isUnlocked ? "all" : "none",
+            touchAction: !item.isUnlocked ? "all" : "none",
+          }}
         >
           <ListItem>
             <BsPlayFill />
             <p className="title">{item.title}</p>
-            <HiLockClosed />
+            <HiLockClosed style={{ opacity: item.isUnlocked ? 1 : 0 }} />
           </ListItem>
         </SwiperSlide>
       ))}

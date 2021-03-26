@@ -14,8 +14,11 @@ import { getImageAbsolutePath } from "Utils/filePathUtils";
 
 const LecturesMain: React.FC = () => {
   const { data: meditations } = useGet(api.getMeditations, {}, 1, 100);
-  const { data: categories } = useGet(api.getMeditationCategories);
+  const { data: categories } = useGet(api.getMeditationCategories, {});
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
+  if (categories) {
+    console.log(categories.data.meditation_categories);
+  }
   return (
     <Container>
       <CardListTitle>مدیتیشن ها</CardListTitle>
