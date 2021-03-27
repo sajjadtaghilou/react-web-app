@@ -1,14 +1,9 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import { AnimatePresence, motion, useCycle } from "framer-motion";
-import Page from "Components/Page";
-import sea2 from "Assets/images/sea2.jpg";
-import forest from "Assets/images/forest.jpg";
-import road from "Assets/images/road.jpg";
+import { motion } from "framer-motion";
 import { spaceXMixinFactory, spaceYMixinFactory } from "Styles/mixins";
 import Card from "Components/Card";
 import { useHistory, useRouteMatch } from "react-router-dom";
-import { useAtom } from "jotai";
 import { LayoutAtom } from "Contexts/LayouContext";
 import PlayList from "Components/PlayList";
 import { meditationIdMaker } from "Animations/layoutIdMaker";
@@ -18,37 +13,30 @@ import useQueryParams from "Hooks/useQueryParams";
 import Player from "Components/Player";
 import {
   getImageAbsolutePath,
-  getMeditationLectureAbsolutePath,
+  getMusicAbsolutePath,
 } from "Utils/filePathUtils";
 import { AuthAtom } from "Contexts/AuthContext";
+import { useAtom } from "jotai";
 
 const LectureDetails: React.FC = () => {
   const [selectedPath, setSelectedPath] = useState("");
   const ref = useRef<HTMLDivElement>(null);
   const queryParams = useQueryParams();
   const match = useRouteMatch<{ id: string }>();
-  const { data: meditation } = useGet(
-    api.getMeditationsId,
-    {},
-    +match.params.id
-  );
+  const { data: music } = useGet(api.getMusicsId, {}, +match.params.id);
   const [isPlayerVisible, setIsPlayerVisible] = useState(false);
   const [{ user }] = useAtom(AuthAtom);
   return (
     <Container ref={ref}>
       <CardContainer>
-        {meditation && (
+        {music && (
           <Card
             backgroundImage={getImageAbsolutePath(
-              meditation.data.meditation.image.path || ""
+              music.data.music.image.path || ""
             )}
             id={queryParams.get("layoutId") || ""}
-            title={meditation.data.meditation.name}
-            duration={
-              meditation.data.meditation.lectures.length > 1
-                ? `${meditation.data.meditation.lectures.length} درس`
-                : `${meditation.data.meditation.lectures[0].duration} دقیقه`
-            }
+            title={music.data.music.title}
+            duration={music.data.music.duration + " دقیقه"}
             isExpanded
           />
         )}
@@ -64,7 +52,7 @@ const LectureDetails: React.FC = () => {
           exit={{ y: 35, opacity: 0 }}
           transition={{ duration: 0.5, bounce: 0 }}
         >
-          {meditation?.data.meditation.description}
+          {music?.data.music.description}
         </LectureDesc>
         <motion.div
           initial={{ y: 5, opacity: 0 }}
@@ -81,37 +69,31 @@ const LectureDetails: React.FC = () => {
             overflow: "hidden",
           }}
         >
-          {meditation && (
+          {music && (
             <PlayList
-              items={meditation.data.meditation.lectures.map((lec, i) => ({
-                title: lec.name,
-                isUnlocked: !getMeditationLectureAbsolutePath(
-                  meditation.data.meditation.lectures[i],
-                  user!
-                ),
-              }))}
+              items={[
+                {
+                  title: music.data.music.title,
+                  isUnlocked: !getMusicAbsolutePath(music.data.music, user!),
+                },
+              ]}
               onItemClicked={(index) => {
                 setIsPlayerVisible(true);
                 setSelectedPath(
-                  getMeditationLectureAbsolutePath(
-                    meditation.data.meditation.lectures[index],
-                    user!
-                  ) || ""
+                  getMusicAbsolutePath(music.data.music, user!) || ""
                 );
               }}
             />
           )}
         </motion.div>
       </DescContainer>
-      {meditation && (
+      {music && (
         <Player
           isVisible={isPlayerVisible}
           closePlayer={() => setIsPlayerVisible(false)}
           onTrackEnd={() => {}}
           path={selectedPath}
-          backgroundImage={getImageAbsolutePath(
-            meditation.data.meditation.image.path
-          )}
+          backgroundImage={getImageAbsolutePath(music.data.music.image.path)}
         />
       )}
     </Container>

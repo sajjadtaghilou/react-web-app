@@ -5,6 +5,7 @@ import { Route, Switch, useLocation } from "react-router-dom";
 import Home from "./Home";
 import Meditations from "./Meditations";
 import Login from "./Login";
+import Musics from "./Musics";
 
 const Routes: React.FC = () => {
   const location = useLocation();
@@ -18,6 +19,7 @@ const Routes: React.FC = () => {
               <AnimatePresence>
                 <Switch location={location} key={location.pathname}>
                   <ProtectedRoute path="/meditations" component={Meditations} />
+                  <ProtectedRoute path="/musics" component={Musics} />
                   <ProtectedRoute path="/" exact component={Home} />
                 </Switch>
               </AnimatePresence>
