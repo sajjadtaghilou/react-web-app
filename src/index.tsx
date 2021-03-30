@@ -10,7 +10,7 @@ import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { theme } from "Base/theme";
 import { MotionConfig } from "framer-motion";
 import { QueryClientProvider } from "react-query";
-import { queryClient } from "Hooks/useQuery";
+import { queryClient } from "Configs/queryConfigs";
 
 const GlobalStyles = createGlobalStyle`
   body {
