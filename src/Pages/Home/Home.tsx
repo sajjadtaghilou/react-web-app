@@ -7,11 +7,21 @@ import { Link } from "react-router-dom";
 import headBg from "Assets/images/head-bg.jpg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { api } from "Api/Api";
-import { useGet } from "Hooks/useQuery";
+import { prefetchQuery, useGet } from "Hooks/useQuery";
 import { meditationIdMaker, musicIdMaker } from "Animations/layoutIdMaker";
 
 const Home: React.FC = () => {
-  const { data, isLoading } = useGet(api.getHomeLists);
+  const { data, isLoading } = useGet(api.getHomeLists, {
+    onSuccess(res) {
+      Array.from(res.data.home_lists).forEach((homeItem) =>
+        homeItem.items.forEach((item) => {
+          item.meditation &&
+            prefetchQuery(api.getMeditationsId, item.meditation.id);
+          item.music && prefetchQuery(api.getMusicsId, item.music?.id);
+        })
+      );
+    },
+  }); //TODO skeleton loading
   return (
     <Page noPadding>
       <motion.img

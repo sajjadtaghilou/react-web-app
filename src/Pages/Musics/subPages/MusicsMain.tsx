@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import Card from "Components/Card";
-import { useGet } from "Hooks/useQuery";
+import { prefetchQuery, useGet } from "Hooks/useQuery";
 import { api } from "Api/Api";
 import { musicIdMaker } from "Animations/layoutIdMaker";
 import Chip from "Components/Chip";
@@ -12,7 +12,13 @@ import { Link } from "react-router-dom";
 import { getImageAbsolutePath } from "Utils/filePathUtils";
 
 const MusicsMain: React.FC = () => {
-  const { data: musics } = useGet(api.getMusic);
+  const { data: musics } = useGet(api.getMusic, {
+    onSuccess(res) {
+      Array.from(res.data.musics).forEach((music) => {
+        prefetchQuery(api.getMusicsId, music.id);
+      });
+    },
+  });
   const { data: categories } = useGet(api.getMusicCategories);
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   return (

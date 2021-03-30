@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import Card from "Components/Card";
-import { useGet } from "Hooks/useQuery";
+import { prefetchQuery, useGet } from "Hooks/useQuery";
 import { api } from "Api/Api";
 import { meditationIdMaker } from "Animations/layoutIdMaker";
 import Chip from "Components/Chip";
@@ -13,7 +13,18 @@ import { Link } from "react-router-dom";
 import { getImageAbsolutePath } from "Utils/filePathUtils";
 
 const LecturesMain: React.FC = () => {
-  const { data: meditations } = useGet(api.getMeditations, {}, 1, 100);
+  const { data: meditations } = useGet(
+    api.getMeditations,
+    {
+      onSuccess(res) {
+        Array.from(res.data.meditations.data).forEach((med) => {
+          prefetchQuery(api.getMeditationsId, med.id);
+        });
+      },
+    },
+    1,
+    100
+  );
   const { data: categories } = useGet(api.getMeditationCategories, {});
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   if (categories) {
