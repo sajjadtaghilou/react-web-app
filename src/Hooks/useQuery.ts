@@ -1,3 +1,4 @@
+import { queryClient } from "Configs/queryConfigs";
 import {
   useMutation,
   useQuery,
@@ -42,8 +43,6 @@ export const useMutate = <
   };
 };
 
-export const queryClient = new QueryClient();
-
 export const refetchQueries = (
   fns: (...args: any[]) => any | ((...args: any[]) => any)[]
 ) => {
@@ -61,4 +60,13 @@ export const refetchQueries = (
       });
     });
   }
+};
+
+export const prefetchQuery = <T extends any[], R>(
+  fetcher: ((...args: T) => Promise<R>) & { queryKey?: string },
+  ...args: Parameters<typeof fetcher>
+) => {
+  queryClient.prefetchQuery([fetcher.queryKey, args[0]], () => {
+    return fetcher(...args);
+  });
 };
