@@ -3,13 +3,21 @@ import Routes from "Pages/Routes";
 import "swiper/swiper.min.css";
 import useAuth from "Hooks/useAuth";
 import { useEffect } from "react";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 function App() {
   const { checkIsLogin, isLoggedIn } = useAuth();
   useEffect(() => {
     checkIsLogin();
   }, []);
-  return <Routes />;
+  return (
+    <>
+      <ReactQueryDevtools
+        panelProps={{ style: { direction: "ltr", textAlign: "left" } }}
+      />
+      <Routes />
+    </>
+  );
 }
 
 export default App;
