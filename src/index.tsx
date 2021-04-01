@@ -11,6 +11,7 @@ import { theme } from "Base/theme";
 import { MotionConfig } from "framer-motion";
 import { QueryClientProvider } from "react-query";
 import { queryClient } from "Configs/queryConfigs";
+import SnackbarProvider from "react-simple-snackbar";
 
 const GlobalStyles = createGlobalStyle`
   body {
@@ -28,8 +29,10 @@ ReactDOM.render(
         <ThemeProvider theme={theme}>
           <MotionConfig transition={{ ease: "easeIn" }}>
             <JotaiProvider>
-              <GlobalStyles />
-              <App />
+              <SnackbarProvider>
+                <GlobalStyles />
+                <App />
+              </SnackbarProvider>
             </JotaiProvider>
           </MotionConfig>
         </ThemeProvider>

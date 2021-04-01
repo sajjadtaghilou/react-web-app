@@ -18,6 +18,7 @@
     "react-query": "^3.13.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
+    "react-simple-snackbar": "^1.1.10",
     "sanitize.css": "^12.0.1",
     "styled-components": "^5.2.1",
     "styled-tools": "^1.7.2",
