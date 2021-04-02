@@ -14,6 +14,7 @@ function App() {
     <>
       <ReactQueryDevtools
         panelProps={{ style: { direction: "ltr", textAlign: "left" } }}
+        position="top-left"
       />
       <Routes />
     </>
