@@ -49,6 +49,11 @@ const Player: React.FC<{
     if (!isVisible) {
       pause();
     }
+    return () => {
+      if (!isVisible) {
+        pause();
+      }
+    };
   }, [isVisible]);
   return (
     <Container

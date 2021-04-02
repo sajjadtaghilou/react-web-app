@@ -31,7 +31,7 @@ const Home: React.FC = () => {
         style={{ width: "100%", objectFit: "cover" }}
         alt=""
       />
-      <PageTitle>CALM SEA</PageTitle>
+      <PageTitle className="eng">CALM SEA</PageTitle>
       <Container>
         {Array.from(data?.data.home_lists || []).map((homeItem, rowIndex) => (
           <>

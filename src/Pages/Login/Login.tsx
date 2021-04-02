@@ -43,6 +43,7 @@ const Login: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 4, delay: 3, type: "spring" }}
           style={{ letterSpacing: "0.3rem" }}
+          className="eng"
         >
           CALM SEA
         </motion.h2>

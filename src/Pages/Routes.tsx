@@ -6,6 +6,8 @@ import Home from "./Home";
 import Meditations from "./Meditations";
 import Login from "./Login";
 import Musics from "./Musics";
+import Profile from "./Profile";
+import Plans from "./Plans";
 
 const Routes: React.FC = () => {
   const location = useLocation();
@@ -20,6 +22,8 @@ const Routes: React.FC = () => {
                 <Switch location={location} key={location.pathname}>
                   <ProtectedRoute path="/meditations" component={Meditations} />
                   <ProtectedRoute path="/musics" component={Musics} />
+                  <ProtectedRoute path="/profile" component={Profile} />
+                  <ProtectedRoute path="/plans" component={Plans} />
                   <ProtectedRoute path="/" exact component={Home} />
                 </Switch>
               </AnimatePresence>

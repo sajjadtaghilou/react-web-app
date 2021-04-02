@@ -33,8 +33,7 @@ const navRoutes: {
   {
     icon: <BiUser />,
     title: "پروفایل",
-    path: "/login",
-    // path: "/profile",
+    path: "/profile",
   },
 ];
 

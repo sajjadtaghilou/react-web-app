@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
   font-family: "IRANYekanMobile";
   src: url("../Assets/Fonts/subset-IRANYekanMobile.eot");
   src: url("../Assets/Fonts/subset-IRANYekanMobile.eot?#iefix")
@@ -19,6 +19,32 @@
     url("../Assets/Fonts/subset-IRANYekanMobile-Bold.woff2") format("woff2"),
     url("../Assets/Fonts/subset-IRANYekanMobile-Bold.woff") format("woff"),
     url("../Assets/Fonts/subset-IRANYekanMobile-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+} */
+
+@font-face {
+  font-family: "IRANSansWeb";
+  src: url("../Assets/Fonts/IRANSansWeb(FaNum).eot");
+  src: url("../Assets/Fonts/IRANSansWeb(FaNum).eot?#iefix")
+      format("embedded-opentype"),
+    url("../Assets/Fonts/IRANSansWeb(FaNum).woff2") format("woff2"),
+    url("../Assets/Fonts/IRANSansWeb(FaNum).woff") format("woff"),
+    url("../Assets/Fonts/IRANSansWeb(FaNum).ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IRANSansWeb";
+  src: url("../Assets/Fonts/IRANSansWeb(FaNum)_Bold.eot");
+  src: url("../Assets/Fonts/IRANSansWeb(FaNum)_Bold.eot?#iefix")
+      format("embedded-opentype"),
+    url("../Assets/Fonts/IRANSansWeb(FaNum)_Bold.woff2") format("woff2"),
+    url("../Assets/Fonts/IRANSansWeb(FaNum)_Bold.woff") format("woff"),
+    url("../Assets/Fonts/IRANSansWeb(FaNum)_Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
   font-display: swap;
@@ -86,7 +112,7 @@
 
 body,
 #root {
-  font-family: IRANYekanMobile, Khand;
+  font-family: IRANSansWeb, Khand;
   max-width: 100vw;
   direction: rtl;
   text-align: right;
@@ -102,4 +128,8 @@ body,
 a:visited {
   text-decoration: none;
   color: inherit;
+}
+
+.eng {
+  font-family: Khand;
 }

@@ -37,4 +37,5 @@ const Container = styled(motion.div)<{ isFullscreen?: boolean }>`
   overflow-y: scroll;
   overflow-x: hidden;
   padding-bottom: 4rem;
+  /* will-change: opacity; */
 `;

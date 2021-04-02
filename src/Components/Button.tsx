@@ -2,7 +2,11 @@ import { motion, HTMLMotionProps, AnimatePresence } from "framer-motion";
 import React from "react";
 import { ButtonHTMLAttributes } from "react";
 import styled, { css } from "styled-components";
-import { fullRoundedMixin, roundedMixin } from "Styles/mixins";
+import {
+  fullRoundedMixin,
+  roundedMixin,
+  spaceXMixinFactory,
+} from "Styles/mixins";
 import { colorVariantsProps, colorVariantsPropsType } from "Styles/props";
 import { PaletteColorKeysType } from "types/paletteType";
 import Spinner from "./Spinner";
@@ -36,7 +40,7 @@ const Button: React.FC<
         transition={{ delay: isLoading ? 0 : 0.5 }}
       >
         {icon}
-        {children}
+        <span>{children}</span>
       </Children>
     </ButtonContainer>
   );
@@ -74,6 +78,7 @@ const Children = styled(motion.div)`
   justify-content: center;
   align-items: center;
   z-index: 1;
+  ${spaceXMixinFactory("small")}
 `;
 
 const SpinnerContainer = styled(motion.div)`
