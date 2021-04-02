@@ -4,10 +4,16 @@ import { Meditation, Music } from "Api/GeneratedApi";
 import PlayBtn from "./components/PlayBtn";
 import LikeBtn from "./components/LikeBtn";
 import { usePlayer } from "./usePlayer";
-import { ForwardBtn, BackwardBtn } from "./components/SeekButtons";
+import {
+  ForwardBtn,
+  BackwardBtn,
+  RepeatBtn,
+  ShareBtn,
+} from "./components/SeekButtons";
 import PlaylistBtn from "./components/PlaylistBtn";
 import { RiCloseLine } from "react-icons/ri";
 import { useEffect } from "react";
+import { fullRoundedMixin } from "Styles/mixins";
 
 const Player: React.FC<{
   isVisible?: boolean;
@@ -22,7 +28,19 @@ const Player: React.FC<{
   closePlayer,
   path,
 }) => {
-  const { isPlaying, play, pause, forward, rewind } = usePlayer(path);
+  const {
+    isPlaying,
+    play,
+    pause,
+    forward,
+    rewind,
+    remainingTime,
+    hasRepeat,
+    setHasRepeat,
+    currentTime,
+    duration,
+    seekTo,
+  } = usePlayer(path);
   const [isPlaylistVisible, toggleIsPlaylistVisible] = useCycle(false, true);
   const [isLiked, toggleIsLiked] = useCycle(false, true); //FIXME
   const [isDimmed, toggleIsDimmed] = useCycle(false, true);
@@ -65,32 +83,43 @@ const Player: React.FC<{
         <RiCloseLine />
       </CloseBtnContainer>
       <ControlsContainer>
-        {/* <LikeBtn
-          isLiked={isLiked}
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleIsLiked();
-          }}
-        /> */}
-        <ForwardBtn
-          onClick={(e) => {
-            e.stopPropagation();
-            forward();
-          }}
-        />
-        <PlayBtn isPlaying={isPlaying} handleClick={isPlaying ? pause : play} />
-        <BackwardBtn
-          onClick={(e) => {
-            e.stopPropagation();
-            rewind();
-          }}
-        />
-        {/* <PlaylistBtn
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleIsPlaylistVisible();
-          }}
-        /> */}
+        <SliderContainer>
+          <Slider
+            type="range"
+            min={0}
+            max={duration}
+            value={currentTime}
+            onChange={(e) => {
+              seekTo(parseInt(e.target.value));
+            }}
+          />
+        </SliderContainer>
+        <ButtonsContainer>
+          <ShareBtn style={{ opacity: 0 }} />
+          <ForwardBtn
+            onClick={(e) => {
+              e.stopPropagation();
+              forward();
+            }}
+          />
+          <PlayBtn
+            isPlaying={isPlaying}
+            handleClick={isPlaying ? pause : play}
+          />
+          <BackwardBtn
+            onClick={(e) => {
+              e.stopPropagation();
+              rewind();
+            }}
+          />
+          <RepeatBtn
+            style={{ opacity: hasRepeat ? 1 : 0.5 }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setHasRepeat(!hasRepeat);
+            }}
+          />
+        </ButtonsContainer>
       </ControlsContainer>
       <AnimatePresence>
         {isPlaylistVisible && (
@@ -113,6 +142,7 @@ const Player: React.FC<{
           />
         )}
       </AnimatePresence>
+      <CurrentTime>{remainingTime}</CurrentTime>
     </Container>
   );
 };
@@ -146,6 +176,11 @@ const CloseBtnContainer = styled.div`
   top: 0.2em;
   right: 0.2em;
   font-size: xx-large;
+  border-radius: 100%;
+  background-color: #00000022;
+  color: white;
+  height: 1em;
+  width: 1em;
 `;
 
 const Background = styled(motion.div)<{ bg: string }>`
@@ -160,11 +195,16 @@ const Background = styled(motion.div)<{ bg: string }>`
 
 const ControlsContainer = styled(motion.div)`
   display: flex;
+  flex-direction: column;
+  margin-top: auto;
+`;
+
+const ButtonsContainer = styled(motion.div)`
+  display: flex;
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  margin-top: auto;
-  padding: 1em;
+  padding: 0.3em 1em 1em 1em;
   font-size: xx-large;
   position: relative;
 `;
@@ -180,12 +220,48 @@ const PlaylistContainer = styled(motion.div)`
   display: flex;
   background-color: white;
 `;
-const List = styled(motion.ul)`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+
+const CurrentTime = styled.h1`
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  direction: ltr;
+  letter-spacing: 0.05em;
 `;
-const ListItem = styled(motion.li)`
-  padding: 1em;
-  display: flex;
+
+const SliderContainer = styled.div`
+  width: 100%;
+  padding: 1rem;
+`;
+
+const Slider = styled.input`
+  direction: ltr;
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 0 auto;
+  height: 0.3rem;
+  background: #d3d3d388;
+  outline: none;
+  opacity: 0.9;
+  ${fullRoundedMixin};
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    background: white;
+    cursor: pointer;
+    border-radius: 100%;
+  }
+
+  &::-moz-range-thumb {
+    width: 1rem;
+    height: 1rem;
+    background: white;
+    cursor: pointer;
+    border-radius: 100%;
+  }
 `;

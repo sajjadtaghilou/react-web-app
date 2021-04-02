@@ -1,8 +1,9 @@
 import { transparentize } from "polished";
 import React, { ButtonHTMLAttributes } from "react";
-import styled from "styled-components";
-import { BsArrowClockwise } from "react-icons/bs";
+import styled, { css } from "styled-components";
+import { BsArrowClockwise, BsArrowRepeat } from "react-icons/bs";
 import { motion } from "framer-motion";
+import { CgShare } from "react-icons/cg";
 
 export const ForwardBtn: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = (
   props
@@ -24,6 +25,25 @@ export const BackwardBtn: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = (
   );
 };
 
+export const RepeatBtn: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = (
+  props
+) => {
+  return (
+    <Container {...props}>
+      <BsArrowRepeat />
+    </Container>
+  );
+};
+export const ShareBtn: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = (
+  props
+) => {
+  return (
+    <Container {...props}>
+      <CgShare />
+    </Container>
+  );
+};
+
 const Container = styled.button`
   display: flex;
   border: none;
@@ -32,4 +52,9 @@ const Container = styled.button`
   align-items: center;
   padding: 0.5em;
   border-radius: 100%;
+  ${(p) =>
+    p.disabled &&
+    css`
+      opacity: 0.3;
+    `}
 `;
