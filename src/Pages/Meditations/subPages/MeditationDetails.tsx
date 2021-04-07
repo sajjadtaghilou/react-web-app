@@ -21,6 +21,7 @@ import {
   getMeditationLectureAbsolutePath,
 } from "Utils/filePathUtils";
 import { AuthAtom } from "Contexts/AuthContext";
+import PlayBtn from "Components/Player/components/PlayBtn";
 
 const LectureDetails: React.FC = () => {
   const [selectedPath, setSelectedPath] = useState("");
@@ -50,6 +51,37 @@ const LectureDetails: React.FC = () => {
                 : `${meditation.data.meditation.lectures[0].duration} دقیقه`
             }
             isExpanded
+            playBtn={
+              meditation.data.meditation.lectures.length === 1 ? (
+                <PlayBtn
+                  big
+                  handleClick={() => {
+                    //TODO refactor
+                    if (meditation.data.meditation.lectures.length === 1) {
+                      setIsPlayerVisible(true);
+                      setSelectedPath(
+                        getMeditationLectureAbsolutePath(
+                          meditation.data.meditation.lectures[0],
+                          user!
+                        ) || ""
+                      );
+                    }
+                  }}
+                />
+              ) : undefined
+            }
+            onClick={() => {
+              //TODO refactor
+              if (meditation.data.meditation.lectures.length === 1) {
+                setIsPlayerVisible(true);
+                setSelectedPath(
+                  getMeditationLectureAbsolutePath(
+                    meditation.data.meditation.lectures[0],
+                    user!
+                  ) || ""
+                );
+              }
+            }}
           />
         )}
       </CardContainer>

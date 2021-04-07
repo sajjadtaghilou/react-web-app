@@ -211,7 +211,7 @@ const usePageState = function () {
   const [, setLayoutAtom] = useAtom(LayoutAtom);
   const [isInCodeStage, setIsInCodeStage] = useState(false);
   const [isInRegisterForm, setIsInRegisterForm] = useState(false);
-  const history = useHistory();
+  const history = useHistory<{ from: string }>();
   const [pendingUserId, setPendingUserId] = useState(0);
   const [loginForm, setLoginForm] = useState({
     code: 0,
@@ -219,11 +219,11 @@ const usePageState = function () {
     name: "",
   });
   const { isLoggedIn, loggedIn } = useAuth();
-  const queryParams = useQueryParams();
+  // const queryParams = useQueryParams();
   useEffect(() => {
-    const from = queryParams.get("from");
+    // const from = queryParams.get("from");
     if (isLoggedIn) {
-      return history.push(from || "/");
+      return history.push(history.location.state.from || "/");
     }
   }, [isLoggedIn]);
   useEffect(() => {

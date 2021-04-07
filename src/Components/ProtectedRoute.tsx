@@ -9,7 +9,16 @@ const ProtectedRoute: React.FC<RouteProps> = ({ component, ...props }) => {
   return isLoggedIn ? (
     <Route {...props} component={component} />
   ) : (
-    <Redirect to={`/login?from=${location.pathname}`} />
+    <Redirect
+      to={{
+        pathname: "/login",
+        state: {
+          from: `${location.pathname}${
+            location.search && "&" + location.search
+          }`,
+        },
+      }}
+    />
   );
 };
 

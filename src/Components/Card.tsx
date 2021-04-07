@@ -9,6 +9,8 @@ type CardProps = {
   duration?: string;
   isExpanded?: boolean;
   id: string;
+  playBtn?: JSX.Element;
+  onClick?: () => void;
 };
 
 const Card: React.FC<CardProps> = ({
@@ -17,14 +19,24 @@ const Card: React.FC<CardProps> = ({
   duration,
   isExpanded,
   id,
+  playBtn,
+  onClick,
 }) => {
   return (
-    <Container transition={{ duration: 0.5 }} layoutId={id} initial={false}>
+    <Container
+      transition={{ duration: 0.5 }}
+      layoutId={id}
+      initial={false}
+      onClick={onClick}
+    >
       <ImageContainer
         transition={{ duration: 0.5 }}
         layoutId={`${id}_image-container`}
         initial={false}
       >
+        {isExpanded && !!playBtn && (
+          <PlayBtnContainer>{playBtn}</PlayBtnContainer>
+        )}
         <CardImage
           transition={{ duration: 0.5 }}
           src={backgroundImage}
@@ -64,6 +76,13 @@ const ImageContainer = styled(motion.div)`
   width: 100%;
   height: 100%;
   display: inline-block;
+`;
+
+const PlayBtnContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const CardImage = styled(motion.img)`

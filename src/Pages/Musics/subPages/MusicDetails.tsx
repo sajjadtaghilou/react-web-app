@@ -17,6 +17,7 @@ import {
 } from "Utils/filePathUtils";
 import { AuthAtom } from "Contexts/AuthContext";
 import { useAtom } from "jotai";
+import PlayBtn from "Components/Player/components/PlayBtn";
 
 const LectureDetails: React.FC = () => {
   const [selectedPath, setSelectedPath] = useState("");
@@ -38,6 +39,24 @@ const LectureDetails: React.FC = () => {
             title={music.data.music.title}
             duration={music.data.music.duration + " دقیقه"}
             isExpanded
+            playBtn={
+              <PlayBtn
+                big
+                handleClick={() => {
+                  setIsPlayerVisible(true);
+                  setSelectedPath(
+                    getMusicAbsolutePath(music.data.music, user!) || ""
+                  );
+                }}
+              />
+            }
+            onClick={() => {
+              //TODO refactor
+              setIsPlayerVisible(true);
+              setSelectedPath(
+                getMusicAbsolutePath(music.data.music, user!) || ""
+              );
+            }}
           />
         )}
       </CardContainer>
@@ -77,7 +96,7 @@ const LectureDetails: React.FC = () => {
                   isUnlocked: !getMusicAbsolutePath(music.data.music, user!),
                 },
               ]}
-              onItemClicked={(index) => {
+              onItemClicked={() => {
                 setIsPlayerVisible(true);
                 setSelectedPath(
                   getMusicAbsolutePath(music.data.music, user!) || ""

@@ -8,9 +8,11 @@ const PlayBtn: React.FC<{
   big?: boolean;
   isPlaying?: boolean;
   handleClick?: () => void;
-}> = ({ big, isPlaying, handleClick }) => {
+  isOpaque?: boolean;
+}> = ({ big, isPlaying, handleClick, isOpaque }) => {
   return (
     <Container
+      isOpaque={isOpaque}
       big={big}
       onClick={(e) => {
         e.stopPropagation();
@@ -29,21 +31,22 @@ const PlayBtn: React.FC<{
 
 export default PlayBtn;
 
-const Container = styled(motion.button)<{ big?: boolean }>`
+const Container = styled(motion.button)<{ big?: boolean; isOpaque?: boolean }>`
   display: flex;
   border: none;
-  color: white;
+  color: ${(p) => (p.isOpaque ? "black" : "white")};
+  background-color: ${(p) =>
+    p.isOpaque ? "white" : transparentize(0.85, p.theme.palette.common.white)};
   justify-content: center;
   align-items: center;
   padding: 0.5em;
   border-radius: 100%;
-  background-color: ${(p) =>
-    transparentize(0.85, p.theme.palette.common.white)};
   backdrop-filter: blur(0.07em);
   ${(p) =>
     p.big &&
     css`
-      font-size: 1.8rem;
-      padding: 0.3em 0.2em 0.3em 0.4em;
+      font-size: 2.5rem;
+      padding: 0.3em 0.4em 0.3em 0.3em;
+      border: 3px solid white;
     `}
 `;
