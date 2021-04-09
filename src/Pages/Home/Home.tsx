@@ -50,7 +50,11 @@ const Home: React.FC = () => {
                 return (
                   <SwiperSlide style={{ width: "40vw", height: "40vw" }}>
                     <Link
-                      to={`/meditations/${item.meditation?.id}?layoutId=${layoutId}`}
+                      to={
+                        item.meditation
+                          ? `/meditations/${item.meditation?.id}?layoutId=${layoutId}`
+                          : `/musics/${item.music?.id}?layoutId=${layoutId}`
+                      }
                     >
                       {/*TODO music */}
                       <Card
@@ -94,6 +98,7 @@ const PageTitle = styled(motion.h1)`
 
 const CardListTitle = styled.h4`
   padding-right: 1em;
-  margin: 1em 0 0.3em 0;
+  margin: 1.4em 0 0.3em 0;
   font-weight: bold;
+  color: ${(p) => p.theme.palette.primary.main};
 `;

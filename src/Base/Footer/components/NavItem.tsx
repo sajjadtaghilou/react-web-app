@@ -23,24 +23,12 @@ const titleVariantsFactory = (theme: DefaultTheme) => ({
 });
 const navVariantsFactory = (theme: DefaultTheme) => ({
   open: {
-    color: theme.palette.common.white,
-    ...linearGradient({
-      colorStops: [
-        transparentize(0.55, theme.palette.tertiary.main),
-        transparentize(0.55, theme.palette.tertiary.gradient),
-      ],
-      toDirection: "to top right",
-    }),
+    color: theme.palette.secondary.contrast,
+    backgroundColor: theme.palette.secondary.main,
   },
   closed: {
-    color: theme.palette.common.light,
-    ...linearGradient({
-      colorStops: [
-        transparentize(1, theme.palette.tertiary.main),
-        transparentize(1, theme.palette.tertiary.gradient),
-      ],
-      toDirection: "to top right",
-    }),
+    color: theme.palette.secondary.contrast,
+    backgroundColor: theme.palette.secondary.main,
   },
 });
 

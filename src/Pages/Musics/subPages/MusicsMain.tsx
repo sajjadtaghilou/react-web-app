@@ -38,8 +38,7 @@ const MusicsMain: React.FC = () => {
           <SwiperSlide style={{ width: "10ch" }}>
             <Chip
               onClick={() => setSelectedCategoryId(0)}
-              bg="tertiary"
-              isGradient
+              bg="primary"
               isSelected={selectedCategoryId === 0}
             >
               همه
@@ -50,8 +49,7 @@ const MusicsMain: React.FC = () => {
               <SwiperSlide style={{ width: "10ch" }}>
                 <Chip
                   onClick={() => setSelectedCategoryId(cat.id)}
-                  bg="tertiary"
-                  isGradient
+                  bg="primary"
                   isSelected={cat.id === selectedCategoryId}
                 >
                   {cat.name}

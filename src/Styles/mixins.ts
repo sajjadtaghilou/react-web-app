@@ -53,6 +53,17 @@ export const glowMixinFactory = ({
   }
 `;
 
+//glow
+export const bluryGlowMixin = css`
+  box-shadow: 0px 0px 40px -10px ${(p) => p.theme.palette.primary.gradient};
+`;
+export const smallGlowMixin = css`
+  box-shadow: 0px 0px 20px 1px ${(p) => p.theme.palette.primary.gradient};
+`;
+export const bigGlowMixin = css`
+  box-shadow: 0px 0px 22px 7px ${(p) => p.theme.palette.primary.gradient};
+`;
+
 //radius
 export const roundedMixin = css`
   border-radius: 0.5em;

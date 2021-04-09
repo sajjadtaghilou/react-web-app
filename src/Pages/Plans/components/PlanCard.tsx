@@ -20,8 +20,7 @@ const PlanCard: React.FC<{ plan: SubscriptionPlan }> = ({ plan }) => {
           <Button
             fullWidth
             fullRounded
-            bg="secondary"
-            isGradient
+            bg="primary"
             isLoading={isLoading}
             disabled={isLoading}
             onClick={() =>

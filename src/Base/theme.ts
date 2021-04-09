@@ -9,18 +9,18 @@ export const theme: DefaultTheme = {
   },
   palette: {
     primary: {
-      main: "#0ac7db",
-      gradient: "#0aa5e7",
-      contrast: "#000000",
-      shade: "#09afc1",
-      tint: "#23cddf",
+      main: "#dccd7c",
+      gradient: "#a99c56",
+      contrast: "#000128",
+      shade: "#a99c56",
+      tint: "#ecde90",
     },
     secondary: {
-      main: "#fb7ab2",
-      gradient: "#9c81ec",
-      contrast: "#000000",
-      shade: "#dd6b9d",
-      tint: "#fb87ba",
+      main: "#3da1b8",
+      gradient: "#00476d",
+      contrast: "#062345",
+      shade: "#00476d",
+      tint: "#44ceec",
     },
     tertiary: {
       main: "#a8df5d",

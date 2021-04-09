@@ -2,8 +2,10 @@ import { motion, AnimateSharedLayout } from "framer-motion";
 import styled from "styled-components";
 import { bluryShadowMixin } from "Styles/mixins";
 import { RiHomeLine, RiMusic2Fill } from "react-icons/ri";
-import { GiMeditation } from "react-icons/gi";
+import { GiStripedSun } from "react-icons/gi";
 import { BiUser, BiLineChart } from "react-icons/bi";
+import { TiHome } from "react-icons/ti";
+import { HiUser } from "react-icons/hi";
 import NavItem from "./components/NavItem";
 import { Link, matchPath, useLocation } from "react-router-dom";
 import { transparentize } from "polished";
@@ -15,13 +17,13 @@ const navRoutes: {
   isExact?: boolean;
 }[] = [
   {
-    icon: <RiHomeLine />,
+    icon: <TiHome />,
     title: "خانه",
     path: "/",
     isExact: true,
   },
   {
-    icon: <GiMeditation />,
+    icon: <GiStripedSun />,
     title: "مدیتیشن",
     path: "/meditations",
   },
@@ -31,7 +33,7 @@ const navRoutes: {
     path: "/musics",
   },
   {
-    icon: <BiUser />,
+    icon: <HiUser />,
     title: "پروفایل",
     path: "/profile",
   },

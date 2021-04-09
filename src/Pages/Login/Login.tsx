@@ -15,13 +15,34 @@ import { useMutate } from "Hooks/useQuery";
 import { BsPersonFill } from "react-icons/bs";
 import useAuth from "Hooks/useAuth";
 import { slideInOutVariant } from "Animations/variants";
-import useQueryParams from "Hooks/useQueryParams";
+import { Field, Form, Formik, FormikProps, FieldProps } from "formik";
+import * as Yup from "yup";
+
+type FormValuesType = {
+  name: string;
+  mobile: string;
+  code: number;
+};
+
+const SignupValidationSchema = Yup.object().shape({
+  name: Yup.string()
+    .max(20, "نام کاربری باید کمتر از ۲۰ حرف باشد")
+    .required("نام وارد نشده است"),
+  mobile: Yup.string()
+    .required("موبایل وارد نشده است")
+    .matches(/^(\+98|0098|98|0)?9\d{9}$/, { message: "موبایل معتبر نیست" }),
+  code: Yup.number().required("کد تایید وراد نشده است"),
+});
+const LoginValidationSchema = Yup.object().shape({
+  mobile: Yup.string()
+    .required("موبایل وارد نشده است")
+    .matches(/^(\+98|0098|98|0)?9\d{9}$/, { message: "موبایل معتبر نیست" }),
+  code: Yup.number().required("کد تایید وراد نشده است"),
+});
 
 const Login: React.FC = () => {
   const {
     isInCodeStage,
-    onChange,
-    loginForm,
     sendMobileLogin,
     isSendingMobile,
     sendCode,
@@ -48,159 +69,212 @@ const Login: React.FC = () => {
           CALM SEA
         </motion.h2>
       </TitleContainer>
-      <FormContainer>
-        <AnimateSharedLayout>
-          <AnimatePresence exitBeforeEnter>
-            {!isInCodeStage ? (
-              <>
-                <AnimatePresence key="name_presence">
-                  {isInRegisterForm && (
-                    <Input
-                      isLtr
-                      onChange={onChange}
-                      value={loginForm.name}
-                      name="name"
-                      key="name"
-                      motion={{
-                        layoutId: "name",
-                        initial: { width: 0, opacity: 0 },
-                        animate: {
-                          width: "100%",
-                          opacity: 1,
-                          transition: { duration: 1 },
-                        },
-                        exit: {
-                          width: 0,
-                          opacity: 0,
-                          transition: { duration: 0.5 },
-                        },
-                      }}
-                      icon={<BsPersonFill />}
-                      iconColor={{
-                        bg: "secondary",
-                        hasGlow: false,
-                        isGradient: true,
-                      }}
-                      inputColor={{ bg: "card-bg", isGradient: true }}
-                    />
+      <Formik<FormValuesType>
+        initialValues={{ code: 0, mobile: "", name: "" }}
+        onSubmit={(values) => {
+          if (isInCodeStage && !isInRegisterForm) {
+            sendCode({}, { code: +values.code, mobile: values.mobile });
+            return;
+          }
+          if (isInCodeStage && isInRegisterForm) {
+            mobileValidate({}, { code: +values.code, user_id: pendingUserId });
+            return;
+          }
+          if (isInRegisterForm) return sendRegisterForm({}, values);
+          sendMobileLogin({}, values);
+        }}
+        validationSchema={
+          isInRegisterForm ? SignupValidationSchema : LoginValidationSchema
+        }
+      >
+        {({ values }: FormikProps<FormValuesType>) => (
+          <StyledForm>
+            <AnimateSharedLayout>
+              <AnimatePresence exitBeforeEnter>
+                {!isInCodeStage ? (
+                  <>
+                    <AnimatePresence key="name_presence">
+                      {isInRegisterForm && (
+                        <Field name="name">
+                          {({
+                            field,
+                            form: { touched, errors },
+                            meta,
+                          }: FieldProps) => (
+                            <div>
+                              <Input
+                                error={meta.touched && meta.error}
+                                {...field}
+                                placeholder="نام کاربری"
+                                isLtr
+                                key="name"
+                                motion={{
+                                  layoutId: "name",
+                                  initial: { width: 0, opacity: 0 },
+                                  animate: {
+                                    width: "100%",
+                                    opacity: 1,
+                                    transition: { duration: 1 },
+                                  },
+                                  exit: {
+                                    width: 0,
+                                    opacity: 0,
+                                    transition: { duration: 0.5 },
+                                  },
+                                }}
+                                icon={<BsPersonFill />}
+                                iconColor={{
+                                  bg: "secondary",
+                                  hasGlow: false,
+                                }}
+                                inputColor={{ bg: "card-bg", isGradient: true }}
+                              />
+                            </div>
+                          )}
+                        </Field>
+                      )}
+                    </AnimatePresence>
+                    <Field name="mobile">
+                      {({
+                        field,
+                        form: { touched, errors },
+                        meta,
+                      }: FieldProps) => (
+                        <div>
+                          <Input
+                            error={meta.touched && meta.error}
+                            {...field}
+                            placeholder="تلفن همراه"
+                            isLtr
+                            key="mobile"
+                            inputMode="numeric"
+                            motion={{
+                              layoutId: "mobile",
+                              initial: { width: 0, opacity: 0 },
+                              animate: {
+                                width: "100%",
+                                opacity: 1,
+                                transition: { delay: 1, duration: 1 },
+                              },
+                              exit: {
+                                width: 0,
+                                opacity: 0,
+                                transition: { duration: 0.5 },
+                              },
+                            }}
+                            icon={<ImMobile />}
+                            iconColor={{
+                              bg: "secondary",
+                              hasGlow: false,
+                            }}
+                            inputColor={{ bg: "card-bg", isGradient: true }}
+                          />
+                        </div>
+                      )}
+                    </Field>
+                  </>
+                ) : (
+                  <>
+                    <ChangeNumberLink>
+                      {values.mobile}
+                      <span
+                        onClick={() => {
+                          setIsInCodeStage(false);
+                        }}
+                      >
+                        <u>تغییر شماره</u>
+                      </span>
+                    </ChangeNumberLink>
+                    <Field name="code">
+                      {({
+                        field,
+                        form: { touched, errors },
+                        meta,
+                      }: FieldProps) => (
+                        <div>
+                          <Input
+                            error={meta.touched && meta.error}
+                            {...field}
+                            placeholder="کد تایید"
+                            isLtr
+                            key="code"
+                            inputMode="numeric"
+                            motion={{
+                              layoutId: "code",
+                              initial: { width: 0, opacity: 0 },
+                              animate: {
+                                width: "100%",
+                                opacity: 1,
+                                transition: { delay: 1, duration: 1 },
+                              },
+                              exit: {
+                                width: 0,
+                                opacity: 0,
+                                transition: { duration: 0.5 },
+                              },
+                            }}
+                            icon={<RiLockPasswordFill />}
+                            iconColor={{
+                              bg: "secondary",
+                              hasGlow: false,
+                            }}
+                            inputColor={{ bg: "card-bg", isGradient: true }}
+                          />
+                        </div>
+                      )}
+                    </Field>
+                  </>
+                )}
+              </AnimatePresence>
+              <Button
+                fullRounded
+                type="submit"
+                layoutId="auth_btn"
+                isLoading={
+                  isSendingMobile ||
+                  isSendingCode ||
+                  isSendingRegisterForm ||
+                  isMobileValdating
+                }
+                bg="secondary"
+                initial={{ width: 0, opacity: 0 }}
+                animate={{
+                  width: "auto",
+                  opacity: 1,
+                  transition: { delay: 1, duration: 1 },
+                }}
+              >
+                {isInCodeStage
+                  ? "ارسال کد تایید"
+                  : isInRegisterForm
+                  ? "ثبت نام"
+                  : "ورود"}
+              </Button>
+              <motion.div
+                layoutId="link_container"
+                onClick={() => {
+                  setIsInRegisterForm(!isInRegisterForm);
+                  setIsInCodeStage(false);
+                }}
+              >
+                <AnimatePresence exitBeforeEnter>
+                  {isInRegisterForm ? (
+                    <RegLoginLink key="login_link" {...slideInOutVariant}>
+                      قبلا ثبت نام کرده اید ؟
+                      <span className="strong">ورود</span>
+                    </RegLoginLink>
+                  ) : (
+                    <RegLoginLink key="reg_link" {...slideInOutVariant}>
+                      ثبت نام نکرده اید ؟
+                      <span className="strong"> ثبت نام</span>
+                    </RegLoginLink>
                   )}
                 </AnimatePresence>
-                <Input
-                  isLtr
-                  onChange={onChange}
-                  value={loginForm.mobile}
-                  name="mobile"
-                  key="mobile"
-                  inputMode="numeric"
-                  motion={{
-                    layoutId: "mobile",
-                    initial: { width: 0, opacity: 0 },
-                    animate: {
-                      width: "100%",
-                      opacity: 1,
-                      transition: { delay: 1, duration: 1 },
-                    },
-                    exit: {
-                      width: 0,
-                      opacity: 0,
-                      transition: { duration: 0.5 },
-                    },
-                  }}
-                  icon={<ImMobile />}
-                  iconColor={{
-                    bg: "secondary",
-                    hasGlow: false,
-                    isGradient: true,
-                  }}
-                  inputColor={{ bg: "card-bg", isGradient: true }}
-                />
-              </>
-            ) : (
-              <Input
-                isLtr
-                onChange={onChange}
-                value={loginForm.code || ""}
-                name="code"
-                key="code"
-                inputMode="numeric"
-                motion={{
-                  layoutId: "code",
-                  initial: { width: 0, opacity: 0 },
-                  animate: {
-                    width: "100%",
-                    opacity: 1,
-                    transition: { delay: 1, duration: 1 },
-                  },
-                  exit: { width: 0, opacity: 0, transition: { duration: 0.5 } },
-                }}
-                icon={<RiLockPasswordFill />}
-                iconColor={{
-                  bg: "secondary",
-                  hasGlow: false,
-                  isGradient: true,
-                }}
-                inputColor={{ bg: "card-bg", isGradient: true }}
-              />
-            )}
-          </AnimatePresence>
-          <Button
-            layoutId="auth_btn"
-            isLoading={
-              isSendingMobile ||
-              isSendingCode ||
-              isSendingRegisterForm ||
-              isMobileValdating
-            }
-            bg="secondary"
-            hasGlow
-            isGradient
-            initial={{ width: 0, opacity: 0 }}
-            animate={{
-              width: "auto",
-              opacity: 1,
-              transition: { delay: 1, duration: 1 },
-            }}
-            onClick={() => {
-              if (isInCodeStage && !isInRegisterForm)
-                return sendCode(
-                  {},
-                  { code: +loginForm.code, mobile: loginForm.mobile }
-                );
-              if (isInCodeStage && isInRegisterForm)
-                return mobileValidate(
-                  {},
-                  { code: +loginForm.code, user_id: pendingUserId }
-                );
-              if (isInRegisterForm) return sendRegisterForm({}, loginForm);
-              sendMobileLogin({}, loginForm);
-            }}
-          >
-            {isInCodeStage
-              ? "ارسال کد تایید"
-              : isInRegisterForm
-              ? "ثبت نام"
-              : "ورود"}
-          </Button>
-        </AnimateSharedLayout>
-      </FormContainer>
-      <div
-        onClick={() => {
-          setIsInRegisterForm(!isInRegisterForm);
-          setIsInCodeStage(false);
-        }}
-      >
-        <AnimatePresence exitBeforeEnter>
-          {isInRegisterForm ? (
-            <RegLoginLink key="login_link" {...slideInOutVariant}>
-              قبلا ثبت نام کرده اید ؟ ورود
-            </RegLoginLink>
-          ) : (
-            <RegLoginLink key="reg_link" {...slideInOutVariant}>
-              ثبت نام نکرده اید ؟ ثبت نام
-            </RegLoginLink>
-          )}
-        </AnimatePresence>
-      </div>
+              </motion.div>
+            </AnimateSharedLayout>
+          </StyledForm>
+        )}
+      </Formik>
     </Continer>
   );
 };
@@ -213,11 +287,11 @@ const usePageState = function () {
   const [isInRegisterForm, setIsInRegisterForm] = useState(false);
   const history = useHistory<{ from: string }>();
   const [pendingUserId, setPendingUserId] = useState(0);
-  const [loginForm, setLoginForm] = useState({
-    code: 0,
-    mobile: "",
-    name: "",
-  });
+  // const [loginForm, setLoginForm] = useState<FormValuesType>({
+  //   code: 0,
+  //   mobile: "",
+  //   name: "",
+  // });
   const { isLoggedIn, loggedIn } = useAuth();
   // const queryParams = useQueryParams();
   useEffect(() => {
@@ -232,12 +306,12 @@ const usePageState = function () {
       setLayoutAtom({ isFullscreen: false });
     };
   }, []);
-  const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setLoginForm({
-      ...loginForm,
-      [e.target.name]: e.target.value, //TODO typescript issue - should show error because code could be overriten to string value
-    });
-  };
+  // const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+  //   setLoginForm({
+  //     ...loginForm,
+  //     [e.target.name]: e.target.value, //TODO typescript issue - should show error because code could be overriten to string value
+  //   });
+  // };
   const { mutate: sendMobileLogin, isLoading: isSendingMobile } = useMutate(
     api.postAuthAppSendPassword,
     {
@@ -274,8 +348,8 @@ const usePageState = function () {
 
   return {
     isInCodeStage,
-    onChange,
-    loginForm,
+    // onChange,
+    // loginForm,
     sendMobileLogin,
     isSendingMobile,
     sendCode,
@@ -308,18 +382,30 @@ const TitleContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const FormContainer = styled.div`
+const StyledForm = styled(Form)`
   flex: 2;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  ${spaceYMixinFactory("large")}
-  width:60%;
+  ${spaceYMixinFactory("small")}
+  width:70%;
 `;
 
 const RegLoginLink = styled(motion.h5)`
   width: 100%;
   text-align: center;
   padding: 0.3em;
+  .strong {
+    text-decoration: underline;
+    padding: 0 0.2em;
+    font-size: 1.2em;
+  }
+`;
+
+const ChangeNumberLink = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 `;

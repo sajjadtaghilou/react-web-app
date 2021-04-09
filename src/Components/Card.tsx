@@ -98,7 +98,7 @@ const TitleContainer = styled(motion.div)`
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: ${(p) => transparentize(0.7, p.theme.palette.common.black)};
+  background-color: ${(p) => transparentize(0.7, p.theme.palette.bg.main)};
   flex-direction: column;
   display: flex;
   align-items: center;

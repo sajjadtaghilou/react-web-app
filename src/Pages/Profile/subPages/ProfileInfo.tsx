@@ -5,7 +5,7 @@ import { AuthAtom } from "Contexts/AuthContext";
 import { useGet, useMutate } from "Hooks/useQuery";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
-import { BsCollectionPlayFill } from "react-icons/bs";
+import { BsCreditCard } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
 import { useSnackbar } from "react-simple-snackbar";
 import styled from "styled-components";
@@ -80,7 +80,12 @@ const ProfileInfo: React.FC = () => {
           hasGlow: true,
         }}
         inputColor={{ bg: "card-bg", isGradient: true }}
-        style={{ textAlign: "left" }}
+        style={{
+          textAlign:
+            user?.subscription && checkUserHasSubscribtion(user)
+              ? "left"
+              : "center",
+        }}
         disabled
         value={
           isLoading
@@ -92,13 +97,7 @@ const ProfileInfo: React.FC = () => {
             : "اعتبار شما پایان یافته"
         }
       />
-      <Button
-        bg="secondary"
-        isGradient
-        hasGlow
-        icon={<BsCollectionPlayFill />}
-        style={{ marginTop: "1em" }}
-      >
+      <Button bg="primary" icon={<BsCreditCard />} style={{ marginTop: "1em" }}>
         <Link to="/plans">افزایش اعتبار</Link>
       </Button>
     </Container>
