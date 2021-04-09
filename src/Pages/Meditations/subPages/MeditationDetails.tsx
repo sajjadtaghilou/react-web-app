@@ -1,17 +1,11 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import { AnimatePresence, motion, useCycle } from "framer-motion";
-import Page from "Components/Page";
-import sea2 from "Assets/images/sea2.jpg";
-import forest from "Assets/images/forest.jpg";
-import road from "Assets/images/road.jpg";
+import { motion } from "framer-motion";
 import { spaceXMixinFactory, spaceYMixinFactory } from "Styles/mixins";
 import Card from "Components/Card";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import { useAtom } from "jotai";
-import { LayoutAtom } from "Contexts/LayouContext";
 import PlayList from "Components/PlayList";
-import { meditationIdMaker } from "Animations/layoutIdMaker";
 import { useGet } from "Hooks/useQuery";
 import { api } from "Api/Api";
 import useQueryParams from "Hooks/useQueryParams";
@@ -57,7 +51,13 @@ const LectureDetails: React.FC = () => {
                   big
                   handleClick={() => {
                     //TODO refactor
-                    if (meditation.data.meditation.lectures.length === 1) {
+                    if (
+                      meditation.data.meditation.lectures.length === 1 &&
+                      !!getMeditationLectureAbsolutePath(
+                        meditation.data.meditation.lectures[0],
+                        user!
+                      )
+                    ) {
                       setIsPlayerVisible(true);
                       setSelectedPath(
                         getMeditationLectureAbsolutePath(
