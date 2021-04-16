@@ -56,6 +56,7 @@ export const ButtonContainer = styled(motion.button)<
     css`
       width: 100%;
     `};
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
